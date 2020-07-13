@@ -4,7 +4,7 @@ import com.erikszalmanis.hw.domain.objects.ExchangeRate;
 import com.erikszalmanis.hw.exceptions.NoDefaultExchangeRateException;
 import com.erikszalmanis.hw.exceptions.NoRatesFoundException;
 import com.erikszalmanis.hw.service.ExchangeRateServiceWrapper;
-import com.erikszalmanis.hw.util.ObjectMapperWrapper;
+import com.erikszalmanis.hw.util.DefaultExchangeRateProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +25,12 @@ public class ExchangeRateServiceWrapperImpl implements ExchangeRateServiceWrappe
 
     private final Logger logger = LoggerFactory.getLogger(ExchangeRateServiceWrapperImpl.class);
     private final RestTemplate restTemplate;
-    private final ObjectMapperWrapper mapper;
+    private final DefaultExchangeRateProvider mapper;
 
     private final static String DEFAULT_FILE ="src/main/resources/DefaultExchangeRates.json";
 
     @Autowired
-    ExchangeRateServiceWrapperImpl(final RestTemplate restTemplate, final ObjectMapperWrapper mapper){
+    ExchangeRateServiceWrapperImpl(final RestTemplate restTemplate, final DefaultExchangeRateProvider mapper){
         this.restTemplate = restTemplate;
         this.mapper = mapper;
     }

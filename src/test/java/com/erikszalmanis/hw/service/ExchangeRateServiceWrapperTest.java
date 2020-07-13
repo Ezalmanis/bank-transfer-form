@@ -3,7 +3,7 @@ package com.erikszalmanis.hw.service;
 import com.erikszalmanis.hw.domain.objects.ExchangeRate;
 import com.erikszalmanis.hw.exceptions.NoDefaultExchangeRateException;
 import com.erikszalmanis.hw.service.impl.ExchangeRateServiceWrapperImpl;
-import com.erikszalmanis.hw.util.impl.ObjectMapperWrapperImpl;
+import com.erikszalmanis.hw.util.impl.DefaultExchangeRateProviderImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ class ExchangeRateServiceWrapperTest {
     @Mock
     RestTemplate template;
     @Mock
-    ObjectMapperWrapperImpl mapper;
+    DefaultExchangeRateProviderImpl mapper;
     ObjectMapper objectMapper = new ObjectMapper();
 
     private final static String DEFAULT_FILE ="src/main/resources/DefaultExchangeRates.json";
