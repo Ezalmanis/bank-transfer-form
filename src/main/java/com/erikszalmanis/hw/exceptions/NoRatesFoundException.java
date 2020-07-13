@@ -1,4 +1,4 @@
-package com.erikszalmanis.hw.domain.exceptions;
+package com.erikszalmanis.hw.exceptions;
 
 
 public class NoRatesFoundException extends Exception {

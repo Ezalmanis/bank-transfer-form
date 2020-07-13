@@ -1,18 +1,18 @@
 package com.erikszalmanis.hw.service.impl;
 
 import com.erikszalmanis.hw.domain.enums.PaymentStatus;
-import com.erikszalmanis.hw.domain.exceptions.OutdatedRatesException;
-import com.erikszalmanis.hw.domain.exceptions.TransferAmountDiscrepancyException;
 import com.erikszalmanis.hw.domain.objects.ExchangeRate;
 import com.erikszalmanis.hw.domain.objects.PaymentInformation;
 import com.erikszalmanis.hw.domain.objects.PaymentOrder;
+import com.erikszalmanis.hw.exceptions.NoDefaultExchangeRateException;
+import com.erikszalmanis.hw.exceptions.OutdatedRatesException;
+import com.erikszalmanis.hw.exceptions.TransferAmountDiscrepancyException;
 import com.erikszalmanis.hw.repository.impl.RepositoryWrapperImpl;
 import com.erikszalmanis.hw.service.EmailService;
 import com.erikszalmanis.hw.service.PaymentOrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +29,6 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
     private final EmailService emailService;
     private final ExchangeRateServiceWrapperImpl exchangeRateService;
 
-
     @Autowired
     public PaymentOrderServiceImpl(final RepositoryWrapperImpl orderRepository, final EmailService emailService, final ExchangeRateServiceWrapperImpl exchangeRateService) {
         this.orderRepository = orderRepository;
@@ -38,7 +37,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
     }
 
     @Override
-    public void saveAndSubmitOrderToClerk(final PaymentOrder paymentOrder) throws OutdatedRatesException, TransferAmountDiscrepancyException {
+    public void saveAndSubmitOrderToClerk(final PaymentOrder paymentOrder) throws OutdatedRatesException, TransferAmountDiscrepancyException, NoDefaultExchangeRateException {
         areExchangeRatesUpToDate(paymentOrder);
         isTransferAmountCorrect(paymentOrder);
         final PaymentOrder savedPaymentOrder = orderRepository.savePaymentOrder(paymentOrder);
@@ -47,7 +46,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
 
 
     @Override
-    public PaymentOrder savePaymentOrder(final PaymentOrder paymentOrder) throws OutdatedRatesException, TransferAmountDiscrepancyException {
+    public PaymentOrder savePaymentOrder(final PaymentOrder paymentOrder) throws OutdatedRatesException, TransferAmountDiscrepancyException, NoDefaultExchangeRateException {
         areExchangeRatesUpToDate(paymentOrder);
         isTransferAmountCorrect(paymentOrder);
         return orderRepository.savePaymentOrder(paymentOrder);
@@ -65,8 +64,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
     }
 
     @Override
-    @Cacheable("rates")
-    public ExchangeRate getExchangeRate() {
+    public ExchangeRate getExchangeRate() throws NoDefaultExchangeRateException {
         return exchangeRateService.getExchangeRate();
     }
 
@@ -75,7 +73,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         return orderRepository.getAllPayments();
     }
 
-    private void areExchangeRatesUpToDate(final PaymentOrder paymentOrder) throws OutdatedRatesException {
+    private void areExchangeRatesUpToDate(final PaymentOrder paymentOrder) throws OutdatedRatesException, NoDefaultExchangeRateException {
         final ExchangeRate rate = exchangeRateService.getExchangeRate();
         final String currencyTypeBase = rate.getBase();
         final String currencyType = paymentOrder.getPaymentInformation().getCurrencyType();
@@ -87,7 +85,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         }
     }
 
-    private void isTransferAmountCorrect(final PaymentOrder paymentOrder) throws TransferAmountDiscrepancyException {
+    private void isTransferAmountCorrect(final PaymentOrder paymentOrder) throws TransferAmountDiscrepancyException, NoDefaultExchangeRateException {
         final PaymentInformation paymentInformation = paymentOrder.getPaymentInformation();
         final Double amountToTransferFromRemitter = paymentInformation.getAmountToTransferFromRemitter();
         final Double amountToTransferToBeneficiary = paymentInformation.getAmountToTransferToBeneficiary();
@@ -100,12 +98,15 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
             logger.error("Incorrect transfer amount; expected {}, actual: {}", amountToTransferToBeneficiary, amountToTransferFromRemitter);
             throw new TransferAmountDiscrepancyException(amountToTransferToBeneficiary, amountToTransferFromRemitter);
         }
-        final Double fetchedExchangeRate = rate.getRates().get(currencyType);
-        final Double expectedAmountToTransferToBeneficiary = amountToTransferToBeneficiary * fetchedExchangeRate;
-        if (!expectedAmountToTransferToBeneficiary.equals(amountToTransferToBeneficiary)) {
-            logger.error("Incorrect transfer amount; expected {}, actual: {}", expectedAmountToTransferToBeneficiary, amountToTransferToBeneficiary);
-            throw new TransferAmountDiscrepancyException(expectedAmountToTransferToBeneficiary, amountToTransferToBeneficiary);
-
+        //Todo, clean this
+        if (!base.equals(currencyType)){
+            final Double fetchedExchangeRate = rate.getRates().get(currencyType);
+            logger.info("exchange rate" + rate.toString());
+            final Double expectedAmountToTransferToBeneficiary = amountToTransferToBeneficiary * fetchedExchangeRate;
+            if (!expectedAmountToTransferToBeneficiary.equals(amountToTransferToBeneficiary)) {
+                logger.error("Incorrect transfer amount; expected {}, actual: {}", expectedAmountToTransferToBeneficiary, amountToTransferToBeneficiary);
+                throw new TransferAmountDiscrepancyException(expectedAmountToTransferToBeneficiary, amountToTransferToBeneficiary);
+            }
         }
     }
 

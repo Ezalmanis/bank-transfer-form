@@ -17,10 +17,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.erikszalmanis.hw.PaymentDomainTestUtil.getCorrectPaymentOrder;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -28,6 +32,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 public class SimplePaymentFormMvcTest {
 
     private final String URL_TEMPLATE = "/payment";
+    private final String GET_PAYMENTS_URL = "/payments";
     private final ObjectMapper mapper = new ObjectMapper();
 
     private MockMvc mockMvc;
@@ -77,7 +82,6 @@ public class SimplePaymentFormMvcTest {
 
     }
 
-
     @Test
     public void shouldSetStatus() throws Exception {
         Mockito.doNothing().when(service).updatePaymentStatus(isA(Long.class), isA(PaymentStatus.class));
@@ -95,4 +99,37 @@ public class SimplePaymentFormMvcTest {
 
 
     }
+
+    @Test
+    public void getPayments()throws Exception{
+        final List<PaymentOrder> paymentOrderList = new ArrayList<>();
+
+        for (int i=0; i<10; i++){
+            final PaymentOrder expectedEntity = getCorrectPaymentOrder(i);
+            paymentOrderList.add(expectedEntity);
+        }
+        final String expectedResponse = mapper.writeValueAsString(paymentOrderList);
+        final String cheatString = mapper.writeValueAsString(paymentOrderList.get(1));
+
+        Mockito.when(service.getPaymentOrders()).thenReturn(paymentOrderList);
+
+        final String responseString = mockMvc.perform(get(GET_PAYMENTS_URL))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        Assertions.assertEquals(expectedResponse, responseString);
+
+    }
+
+//    @GetMapping(value = "/payment/rates")
+//    public ExchangeRate getExchangeRate() throws NoDefaultExchangeRateException {
+//        return paymentService.getExchangeRate();
+//    }
+//
+//    @GetMapping(value = "/payments")
+//    public List<PaymentOrder> getPaymentOrders() {
+//        final List<PaymentOrder> paymentOrders = paymentService.getPaymentOrders();
+//        logger.info(String.format("Payment orders retrieved successfully: %s", paymentOrders));
+//        return paymentOrders;
+//    }
 }

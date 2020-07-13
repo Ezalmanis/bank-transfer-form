@@ -1,10 +1,11 @@
 package com.erikszalmanis.hw.controller;
 
 import com.erikszalmanis.hw.domain.enums.PaymentStatus;
-import com.erikszalmanis.hw.domain.exceptions.OutdatedRatesException;
-import com.erikszalmanis.hw.domain.exceptions.TransferAmountDiscrepancyException;
 import com.erikszalmanis.hw.domain.objects.ExchangeRate;
 import com.erikszalmanis.hw.domain.objects.PaymentOrder;
+import com.erikszalmanis.hw.exceptions.NoDefaultExchangeRateException;
+import com.erikszalmanis.hw.exceptions.OutdatedRatesException;
+import com.erikszalmanis.hw.exceptions.TransferAmountDiscrepancyException;
 import com.erikszalmanis.hw.service.PaymentOrderService;
 import com.erikszalmanis.hw.validator.ValueOfEnum;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public class SimplePaymentFormRestController {
     }
 
     @PostMapping(value = "/payment", consumes = "application/json")
-    public Long processNewPaymentRequest(@Validated @RequestBody final PaymentOrder paymentOrder) throws OutdatedRatesException, TransferAmountDiscrepancyException {
+    public Long processNewPaymentRequest(@Validated @RequestBody final PaymentOrder paymentOrder) throws OutdatedRatesException, TransferAmountDiscrepancyException, NoDefaultExchangeRateException {
         final PaymentOrder savedOrder = paymentService.savePaymentOrder(paymentOrder);
         logger.info(String.format("PaymentOrder created successfully: %s", savedOrder));
         return savedOrder.getDocumentId();
@@ -48,14 +49,14 @@ public class SimplePaymentFormRestController {
     }
 
     @GetMapping(value = "/payment/rates")
-    public ExchangeRate getExchangeRate() {
+    public ExchangeRate getExchangeRate() throws NoDefaultExchangeRateException {
         return paymentService.getExchangeRate();
     }
 
     @GetMapping(value = "/payments")
     public List<PaymentOrder> getPaymentOrders() {
         final List<PaymentOrder> paymentOrders = paymentService.getPaymentOrders();
-        logger.info(String.format("Payment ordders retrieved successfully: %s", paymentOrders));
+        logger.info(String.format("Payment orders retrieved successfully: %s", paymentOrders));
         return paymentOrders;
     }
 

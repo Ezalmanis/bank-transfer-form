@@ -1,20 +1,20 @@
 package com.erikszalmanis.hw.repository.impl;
 
-import com.erikszalmanis.hw.domain.enums.PaymentStatus;
 import com.erikszalmanis.hw.domain.entities.PaymentOrderEntity;
+import com.erikszalmanis.hw.domain.enums.PaymentStatus;
 import com.erikszalmanis.hw.domain.objects.PaymentOrder;
 import com.erikszalmanis.hw.mapper.SimplePaymentMapper;
 import com.erikszalmanis.hw.repository.PaymentRepository;
 import com.erikszalmanis.hw.repository.RepositoryFacade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-@Service
+@Component
 public class RepositoryWrapperImpl implements RepositoryFacade {
 
     private final PaymentRepository repository;

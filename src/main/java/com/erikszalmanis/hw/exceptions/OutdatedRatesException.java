@@ -1,4 +1,4 @@
-package com.erikszalmanis.hw.domain.exceptions;
+package com.erikszalmanis.hw.exceptions;
 
 public class OutdatedRatesException extends Exception {
     public OutdatedRatesException(final Double expected, final Double actual) {

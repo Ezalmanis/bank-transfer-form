@@ -1,15 +1,20 @@
 package com.erikszalmanis.hw.service.impl;
 
-import com.erikszalmanis.hw.domain.exceptions.NoRatesFoundException;
 import com.erikszalmanis.hw.domain.objects.ExchangeRate;
+import com.erikszalmanis.hw.exceptions.NoDefaultExchangeRateException;
+import com.erikszalmanis.hw.exceptions.NoRatesFoundException;
 import com.erikszalmanis.hw.service.ExchangeRateServiceWrapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.erikszalmanis.hw.util.ObjectMapperWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -19,35 +24,53 @@ import java.util.Optional;
 public class ExchangeRateServiceWrapperImpl implements ExchangeRateServiceWrapper {
 
     private final Logger logger = LoggerFactory.getLogger(ExchangeRateServiceWrapperImpl.class);
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
+    private final ObjectMapperWrapper mapper;
+
+    private final static String DEFAULT_FILE ="src/main/resources/DefaultExchangeRates.json";
+
+    @Autowired
+    ExchangeRateServiceWrapperImpl(final RestTemplate restTemplate, final ObjectMapperWrapper mapper){
+        this.restTemplate = restTemplate;
+        this.mapper = mapper;
+    }
 
     @Override
-    public ExchangeRate getExchangeRate() {
-        final LocalDate today = LocalDate.now();
-        final Optional<ExchangeRate> response = Optional.ofNullable(restTemplate.getForObject("https://api.exchangeratesapi.io/latest", ExchangeRate.class));
+    public ExchangeRate getExchangeRate() throws NoDefaultExchangeRateException {
         try {
-            final ExchangeRate rates = response.orElseThrow(NoRatesFoundException::new);
-            logger.info(String.format("Fetched exchange rates for date:%s", rates.getDate()));
-            logger.info(String.format("Fetched exchange rates are %s days old", today.compareTo(rates.getDate())));
-            return rates;
+            return getExchangeRateFromApi();
         } catch (final NoRatesFoundException e) {
             final ExchangeRate rates = getDefaultExchangeRate();
-            logger.info(String.format("Fetched exchange rates for date:%s", rates.getDate()));
+            logger.info(String.format("Fetched exchange rates for date: %s", rates.getDate()));
             logger.info("Fetched default exchange rates");
             return rates;
         }
     }
 
-    private ExchangeRate getDefaultExchangeRate() {
-        ExchangeRate rate;
-        final String fileName = "resources/DefaultExchangeRates.json";
-        final ObjectMapper mapper = new ObjectMapper();
+    @Cacheable("rates")
+    public ExchangeRate getExchangeRateFromApi() throws NoRatesFoundException{
+        final LocalDate today = LocalDate.now();
+        final Optional<ExchangeRate> response = Optional.ofNullable(restTemplate.getForObject("https://api.exchangeratesapi.io/latest", ExchangeRate.class));
+        final ExchangeRate rates = response.orElseThrow(NoRatesFoundException::new);
+        logger.info(String.format("Exchange rates for date: %s", rates.getDate()));
+        logger.info(String.format("Exchange rates are %s days old", today.compareTo(rates.getDate())));
+        return rates;
+    }
+
+    private ExchangeRate getDefaultExchangeRate() throws NoDefaultExchangeRateException {
         try {
-            rate = mapper.readValue(new File("src/main/resources/DefaultExchangeRates.json"), ExchangeRate.class);
-        } catch (final IOException e) {
-            rate = new ExchangeRate();
+            return mapper.readStringFromFile(DEFAULT_FILE);
+        }catch (final IOException e){
+            throw new NoDefaultExchangeRateException();
         }
-        return rate;
+    }
+
+    @Configuration
+    public static class Config {
+        @Bean
+        public RestTemplate restTemplate(final RestTemplateBuilder builder) {
+            return builder.build();
+        }
     }
 
 }
