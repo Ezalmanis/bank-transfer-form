@@ -3,6 +3,7 @@ package com.erikszalmanis.hw.domain.objects;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -78,7 +79,7 @@ public class BankUser {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("bankUserName", bankUserName)
                 .append("bankUserId", bankUserId)
                 .append("bankAccountNo", bankAccountNo)

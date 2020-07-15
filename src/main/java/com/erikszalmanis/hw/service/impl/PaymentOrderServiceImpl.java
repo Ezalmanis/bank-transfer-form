@@ -65,7 +65,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
 
     @Override
     public ExchangeRate getExchangeRate() throws NoDefaultExchangeRateException {
-        return exchangeRateService.getExchangeRate();
+        return exchangeRateService.getExchangeRates();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
     }
 
     private void areExchangeRatesUpToDate(final PaymentOrder paymentOrder) throws OutdatedRatesException, NoDefaultExchangeRateException {
-        final ExchangeRate rate = exchangeRateService.getExchangeRate();
+        final ExchangeRate rate = exchangeRateService.getExchangeRates();
         final String currencyTypeBase = rate.getBase();
         final String currencyType = paymentOrder.getPaymentInformation().getCurrencyType();
         final Double providedExchangeRate = paymentOrder.getPaymentInformation().getExchangeRate();
@@ -90,7 +90,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
         final Double amountToTransferFromRemitter = paymentInformation.getAmountToTransferFromRemitter();
         final Double amountToTransferToBeneficiary = paymentInformation.getAmountToTransferToBeneficiary();
 
-        final ExchangeRate rate = exchangeRateService.getExchangeRate();
+        final ExchangeRate rate = exchangeRateService.getExchangeRates();
         final String base = rate.getBase();
         final String currencyType = paymentOrder.getPaymentInformation().getCurrencyType();
 
@@ -98,10 +98,9 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
             logger.error("Incorrect transfer amount; expected {}, actual: {}", amountToTransferToBeneficiary, amountToTransferFromRemitter);
             throw new TransferAmountDiscrepancyException(amountToTransferToBeneficiary, amountToTransferFromRemitter);
         }
-        //Todo, clean this
-        if (!base.equals(currencyType)){
+        if (!base.equals(currencyType)) {
             final Double fetchedExchangeRate = rate.getRates().get(currencyType);
-            logger.info("exchange rate" + rate.toString());
+            logger.info("Exchange rate: {}", rate);
             final Double expectedAmountToTransferToBeneficiary = amountToTransferToBeneficiary * fetchedExchangeRate;
             if (!expectedAmountToTransferToBeneficiary.equals(amountToTransferToBeneficiary)) {
                 logger.error("Incorrect transfer amount; expected {}, actual: {}", expectedAmountToTransferToBeneficiary, amountToTransferToBeneficiary);

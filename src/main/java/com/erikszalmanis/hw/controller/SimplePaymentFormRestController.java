@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -35,17 +36,17 @@ public class SimplePaymentFormRestController {
     }
 
     @PostMapping(value = "/payment", consumes = "application/json")
-    public Long processNewPaymentRequest(@Validated @RequestBody final PaymentOrder paymentOrder) throws OutdatedRatesException, TransferAmountDiscrepancyException, NoDefaultExchangeRateException {
+    public Long createNewPaymentRequest(@Validated @RequestBody final PaymentOrder paymentOrder) throws OutdatedRatesException, TransferAmountDiscrepancyException, NoDefaultExchangeRateException {
         final PaymentOrder savedOrder = paymentService.savePaymentOrder(paymentOrder);
-        logger.info(String.format("PaymentOrder created successfully: %s", savedOrder));
+        logger.info(("PaymentOrder created successfully: {}"), savedOrder);
         return savedOrder.getDocumentId();
     }
 
     //TODO, encrypt ids
-    @PostMapping(value = "/payment/{id}/{status}", consumes = "application/json")
-    public void processPayment(@NotNull @PathVariable final Long id, @ValueOfEnum(enumClass = PaymentStatus.class) @PathVariable final PaymentStatus status) {
+    @PostMapping(value = "/payment/{id}/{status}")
+    public void processPayment(@NotNull @PathVariable final Long id, @ValueOfEnum(enumClass = PaymentStatus.class) @PathVariable final PaymentStatus status) throws EntityNotFoundException {
         paymentService.updatePaymentStatus(id, status);
-        logger.info(String.format("PaymentOrder status updated successfully: %s", status));
+        logger.info(("PaymentOrder status updated successfully: {}"), status);
     }
 
     @GetMapping(value = "/payment/rates")
@@ -56,7 +57,7 @@ public class SimplePaymentFormRestController {
     @GetMapping(value = "/payments")
     public List<PaymentOrder> getPaymentOrders() {
         final List<PaymentOrder> paymentOrders = paymentService.getPaymentOrders();
-        logger.info(String.format("Payment orders retrieved successfully: %s", paymentOrders));
+        logger.info(("Payment orders retrieved successfully: {}"), paymentOrders);
         return paymentOrders;
     }
 

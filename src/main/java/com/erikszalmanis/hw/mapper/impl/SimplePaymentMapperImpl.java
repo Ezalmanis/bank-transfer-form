@@ -1,6 +1,9 @@
 package com.erikszalmanis.hw.mapper.impl;
 
+import com.erikszalmanis.hw.domain.entities.BeneficiaryEntity;
+import com.erikszalmanis.hw.domain.entities.PaymentInformationEntity;
 import com.erikszalmanis.hw.domain.entities.PaymentOrderEntity;
+import com.erikszalmanis.hw.domain.entities.RemitterEntity;
 import com.erikszalmanis.hw.domain.objects.Beneficiary;
 import com.erikszalmanis.hw.domain.objects.PaymentInformation;
 import com.erikszalmanis.hw.domain.objects.PaymentOrder;
@@ -16,8 +19,14 @@ public class SimplePaymentMapperImpl implements SimplePaymentMapper {
         if (source == null) {
             return null;
         }
+
         final PaymentOrderEntity paymentOrderEntity = new PaymentOrderEntity();
         return getPaymentOrderEntity(source, paymentOrderEntity);
+    }
+
+    @Override
+    public void updatePaymentOrderEntity(final PaymentOrder source, final PaymentOrderEntity entity) {
+        getPaymentOrderEntity(source, entity);
     }
 
     @Override
@@ -27,7 +36,6 @@ public class SimplePaymentMapperImpl implements SimplePaymentMapper {
         }
 
         final PaymentOrder paymentOrder = new PaymentOrder();
-
         paymentOrder.setDocumentId(source.getDocumentId());
         paymentOrder.setClientId(source.getClientId());
         paymentOrder.setDocumentDate(source.getDocumentDate());
@@ -41,45 +49,47 @@ public class SimplePaymentMapperImpl implements SimplePaymentMapper {
     }
 
     @Override
-    public Beneficiary entityToPaymentBeneficiary(final PaymentOrderEntity source) {
-        if (source == null) {
+    public Beneficiary entityToPaymentBeneficiary(final PaymentOrderEntity entity) {
+        if (entity == null) {
             return null;
         }
-
         final Beneficiary beneficiary = new Beneficiary();
+        final BeneficiaryEntity source = entity.getBeneficiaryEntity();
 
-        beneficiary.setBankAccountNo(source.getBeneficiaryAccountNo());
-        beneficiary.setBankUserId(source.getBeneficiaryId());
-        beneficiary.setBankUserName(source.getBeneficiaryName());
+        beneficiary.setBankAccountNo(source.getBankAccountNo());
+        beneficiary.setBankUserId(source.getBankUserId());
+        beneficiary.setBankUserName(source.getBankUserName());
 
-        beneficiary.setBeneficiaryResidenceCountry(source.getBeneficiaryResidenceCountry());
+        beneficiary.setBeneficiaryResidenceCountry(source.getResidenceCountry());
         beneficiary.setBeneficiaryBank(source.getBeneficiaryBank());
-        beneficiary.setBeneficiaryBankCode(source.getBeneficiaryBankCode());
+        beneficiary.setBeneficiaryBankCode(source.getBankCode());
 
         return beneficiary;
     }
 
     @Override
-    public Remitter entityToPaymentRemitter(final PaymentOrderEntity source) {
-        if (source == null) {
+    public Remitter entityToPaymentRemitter(final PaymentOrderEntity entity) {
+        if (entity == null) {
             return null;
         }
 
         final Remitter remitter = new Remitter();
-
-        remitter.setBankAccountNo(source.getRemitterBankAccountNo());
-        remitter.setBankUserId(source.getRemitterId());
-        remitter.setBankUserName(source.getRemitterName());
+        final RemitterEntity source = entity.getRemitterEntity();
+        remitter.setBankAccountNo(source.getBankAccountNo());
+        remitter.setBankUserId(source.getBankUserId());
+        remitter.setBankUserName(source.getBankUserName());
 
         return remitter;
     }
 
+
     @Override
-    public PaymentInformation entityToPaymentPaymentInformation(final PaymentOrderEntity source) {
-        if (source == null) {
+    public PaymentInformation entityToPaymentPaymentInformation(final PaymentOrderEntity entity) {
+        if (entity == null) {
             return null;
         }
         final PaymentInformation paymentInformation = new PaymentInformation();
+        final PaymentInformationEntity source = entity.getPaymentInformationEntity();
 
         paymentInformation.setAmountInWords(source.getAmountInWords());
         paymentInformation.setAmountToTransferFromRemitter(source.getAmountToTransferFromRemitter());
@@ -95,39 +105,46 @@ public class SimplePaymentMapperImpl implements SimplePaymentMapper {
         return paymentInformation;
     }
 
+
     private void remitterToEntity(final PaymentOrderEntity orderEntity, final Remitter source) {
         if (source != null && orderEntity != null) {
-            orderEntity.setRemitterBankAccountNo(source.getBankAccountNo());
-            orderEntity.setRemitterId(source.getBankUserId());
-            orderEntity.setRemitterName(source.getBankUserName());
+            final RemitterEntity remitterEntity = new RemitterEntity();
+            remitterEntity.setBankUserId(source.getBankUserId());
+            remitterEntity.setBankUserName(source.getBankUserName());
+            remitterEntity.setBankAccountNo(source.getBankAccountNo());
+            orderEntity.setRemitterEntity(remitterEntity);
         }
     }
 
     private void paymentInformationToEntity(final PaymentOrderEntity orderEntity, final PaymentInformation paymentInformation) {
         if (paymentInformation != null && orderEntity != null) {
+            final PaymentInformationEntity paymentInformationEntity = new PaymentInformationEntity();
+            paymentInformationEntity.setAmountInWords(paymentInformation.getAmountInWords());
+            paymentInformationEntity.setAmountToTransferFromRemitter(paymentInformation.getAmountToTransferFromRemitter());
+            paymentInformationEntity.setAmountToTransferToBeneficiary(paymentInformation.getAmountToTransferToBeneficiary());
+            paymentInformationEntity.setCurrencyType(paymentInformation.getCurrencyType());
+            paymentInformationEntity.setPaymentType(paymentInformation.getPaymentType());
+            paymentInformationEntity.setValuedAtDate(paymentInformation.getValuedAtDate());
+            paymentInformationEntity.setPaymentDetails(paymentInformation.getPaymentDetails());
+            paymentInformationEntity.setBankFee(paymentInformation.getBankFee());
+            paymentInformationEntity.setExchangeRate(paymentInformation.getExchangeRate());
+            paymentInformationEntity.setExternalPaymentCode(paymentInformation.getExternalPaymentCode());
 
-            orderEntity.setAmountInWords(paymentInformation.getAmountInWords());
-            orderEntity.setAmountToTransferFromRemitter(paymentInformation.getAmountToTransferFromRemitter());
-            orderEntity.setAmountToTransferToBeneficiary(paymentInformation.getAmountToTransferToBeneficiary());
-            orderEntity.setCurrencyType(paymentInformation.getCurrencyType());
-            orderEntity.setPaymentType(paymentInformation.getPaymentType());
-            orderEntity.setValuedAtDate(paymentInformation.getValuedAtDate());
-            orderEntity.setPaymentDetails(paymentInformation.getPaymentDetails());
-            orderEntity.setBankFee(paymentInformation.getBankFee());
-            orderEntity.setExchangeRate(paymentInformation.getExchangeRate());
-            orderEntity.setExternalPaymentCode(paymentInformation.getExternalPaymentCode());
+            orderEntity.setPaymentInformationEntity(paymentInformationEntity);
         }
     }
 
     private void beneficiaryToEntity(final PaymentOrderEntity orderEntity, final Beneficiary source) {
         if (source != null && orderEntity != null) {
-            orderEntity.setBeneficiaryAccountNo(source.getBankAccountNo());
-            orderEntity.setBeneficiaryId(source.getBankUserId());
-            orderEntity.setBeneficiaryName(source.getBankUserName());
+            final BeneficiaryEntity beneficiaryEntity = new BeneficiaryEntity();
+            beneficiaryEntity.setBankCode(source.getBeneficiaryBankCode());
+            beneficiaryEntity.setBeneficiaryBank(source.getBeneficiaryBank());
+            beneficiaryEntity.setResidenceCountry(source.getBeneficiaryResidenceCountry());
+            beneficiaryEntity.setBankUserId(source.getBankUserId());
+            beneficiaryEntity.setBankUserName(source.getBankUserName());
+            beneficiaryEntity.setBankAccountNo(source.getBankAccountNo());
 
-            orderEntity.setBeneficiaryResidenceCountry(source.getBeneficiaryResidenceCountry());
-            orderEntity.setBeneficiaryBank(source.getBeneficiaryBank());
-            orderEntity.setBeneficiaryBankCode(source.getBeneficiaryBankCode());
+            orderEntity.setBeneficiaryEntity(beneficiaryEntity);
         }
     }
 

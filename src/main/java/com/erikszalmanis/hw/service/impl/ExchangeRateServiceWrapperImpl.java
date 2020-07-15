@@ -12,6 +12,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,44 +24,48 @@ import java.util.Optional;
 @Service
 public class ExchangeRateServiceWrapperImpl implements ExchangeRateServiceWrapper {
 
+    private final static String DEFAULT_FILE = "src/main/resources/DefaultExchangeRates.json";
     private final Logger logger = LoggerFactory.getLogger(ExchangeRateServiceWrapperImpl.class);
     private final RestTemplate restTemplate;
     private final DefaultExchangeRateProvider mapper;
 
-    private final static String DEFAULT_FILE ="src/main/resources/DefaultExchangeRates.json";
-
     @Autowired
-    ExchangeRateServiceWrapperImpl(final RestTemplate restTemplate, final DefaultExchangeRateProvider mapper){
+    ExchangeRateServiceWrapperImpl(final RestTemplate restTemplate, final DefaultExchangeRateProvider mapper) {
         this.restTemplate = restTemplate;
         this.mapper = mapper;
     }
 
     @Override
-    public ExchangeRate getExchangeRate() throws NoDefaultExchangeRateException {
+    public ExchangeRate getExchangeRates() throws NoDefaultExchangeRateException {
         try {
             return getExchangeRateFromApi();
         } catch (final NoRatesFoundException e) {
-            final ExchangeRate rates = getDefaultExchangeRate();
-            logger.info(String.format("Fetched exchange rates for date: %s", rates.getDate()));
-            logger.info("Fetched default exchange rates");
+            final ExchangeRate rates = getDefaultExchangeRates();
+            logger.warn("Fetching default exchange rates");
+            logger.info(("Fetched exchange rates for date: {}"), rates.getDate());
             return rates;
         }
     }
 
+
     @Cacheable("rates")
-    public ExchangeRate getExchangeRateFromApi() throws NoRatesFoundException{
+    public ExchangeRate getExchangeRateFromApi() throws NoRatesFoundException {
+
         final LocalDate today = LocalDate.now();
-        final Optional<ExchangeRate> response = Optional.ofNullable(restTemplate.getForObject("https://api.exchangeratesapi.io/latest", ExchangeRate.class));
-        final ExchangeRate rates = response.orElseThrow(NoRatesFoundException::new);
-        logger.info(String.format("Exchange rates for date: %s", rates.getDate()));
-        logger.info(String.format("Exchange rates are %s days old", today.compareTo(rates.getDate())));
-        return rates;
+
+        final ResponseEntity<ExchangeRate> response = restTemplate.getForEntity("https://api.exchangeratesapi.io/latest", ExchangeRate.class);
+        if(response.getStatusCode().is2xxSuccessful() && response.hasBody()){
+            final ExchangeRate rates = Optional.ofNullable(response.getBody()).orElseThrow(NoRatesFoundException::new);
+            logger.info(("Exchange rates for date: {}"), rates.getDate());
+            logger.info(("Exchange rates are {} days old"), today.compareTo(rates.getDate()));
+            return rates;
+        }else throw new NoRatesFoundException();
     }
 
-    private ExchangeRate getDefaultExchangeRate() throws NoDefaultExchangeRateException {
+    private ExchangeRate getDefaultExchangeRates() throws NoDefaultExchangeRateException {
         try {
             return mapper.readStringFromFile(DEFAULT_FILE);
-        }catch (final IOException e){
+        } catch (final IOException e) {
             throw new NoDefaultExchangeRateException();
         }
     }

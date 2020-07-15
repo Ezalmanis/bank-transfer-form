@@ -1,8 +1,11 @@
 package com.erikszalmanis.hw;
 
+import com.erikszalmanis.hw.domain.entities.BeneficiaryEntity;
+import com.erikszalmanis.hw.domain.entities.PaymentInformationEntity;
+import com.erikszalmanis.hw.domain.entities.PaymentOrderEntity;
+import com.erikszalmanis.hw.domain.entities.RemitterEntity;
 import com.erikszalmanis.hw.domain.enums.PaymentStatus;
 import com.erikszalmanis.hw.domain.enums.PaymentType;
-import com.erikszalmanis.hw.domain.entities.PaymentOrderEntity;
 import com.erikszalmanis.hw.domain.objects.Beneficiary;
 import com.erikszalmanis.hw.domain.objects.PaymentInformation;
 import com.erikszalmanis.hw.domain.objects.PaymentOrder;
@@ -105,14 +108,46 @@ public class PaymentDomainTestUtil {
 
     public static PaymentOrderEntity getEntityCorrectPaymentOrder(final int counter) {
 
+        final PaymentOrderEntity entity = new PaymentOrderEntity();
+
+        setPaymentEntity(counter, entity);
+
+        setRemitter(counter, entity);
+
+        setBeneficiary(counter, entity);
+
+        setPaymentInformation(counter, entity);
+
+        return entity;
+    }
+
+    private static void setPaymentEntity(final int counter, final PaymentOrderEntity entity) {
         final Long documentId = DOCUMENT_ID + counter;
         final Long clientId = CLIENT_ID + counter;
         final LocalDate documentDate = DOCUMENT_DATE.plusDays(counter);
         final PaymentStatus status = PAYMENT_STATUSES.get(counter % PAYMENT_STATUSES.size());
 
+        entity.setDocumentId(documentId);
+        entity.setClientId(clientId);
+        entity.setDocumentDate(documentDate);
+        entity.setStatus(status);
+        entity.setTermsOfService(TERMS_OF_SERVICE);
+    }
+
+    private static void setRemitter(final int counter, final PaymentOrderEntity entity) {
+        final RemitterEntity remitterEntity = new RemitterEntity();
+
         final Long remitterId = REMITTER_ID + counter;
         final Long remitterBankAccountNo = REMITTER_BANK_ACCOUNT_NO + counter;
         final String remitterName = String.format(REMITTER_NAME, counter);
+        remitterEntity.setBankUserName(remitterName);
+        remitterEntity.setBankUserId(remitterId);
+        remitterEntity.setBankAccountNo(remitterBankAccountNo);
+        entity.setRemitterEntity(remitterEntity);
+    }
+
+    private static void setBeneficiary(final int counter, final PaymentOrderEntity entity) {
+        final BeneficiaryEntity beneficiaryEntity = new BeneficiaryEntity();
 
         final Long beneficiaryId = BENEFICIARY_ID + counter;
         final Long beneficiaryAccountNo = BENEFICIARY_ACCOUNT_NO + counter;
@@ -120,11 +155,23 @@ public class PaymentDomainTestUtil {
         final String beneficiaryCountry = String.format(BENEFICIARY_COUNTRY, counter);
         final String beneficiaryBank = String.format(BENEFICIARY_BANK, counter);
         final String beneficiaryBankCode = String.format(BENEFICIARY_BANK_CODE, counter);
+        beneficiaryEntity.setBankUserName(beneficiaryName);
+        beneficiaryEntity.setBankUserId(beneficiaryId);
+        beneficiaryEntity.setBankAccountNo(beneficiaryAccountNo);
+        beneficiaryEntity.setResidenceCountry(beneficiaryCountry);
+        beneficiaryEntity.setBeneficiaryBank(beneficiaryBank);
+        beneficiaryEntity.setBankCode(beneficiaryBankCode);
+
+        entity.setBeneficiaryEntity(beneficiaryEntity);
+
+    }
+
+    private static void setPaymentInformation(final int counter, final PaymentOrderEntity entity) {
+        final PaymentInformationEntity paymentInformationEntity = new PaymentInformationEntity();
 
         final String amountInWords = String.format(AMOUNT_IN_WORDS, counter);
         final Double amountToTransferFromRemitter = AMOUNT_TO_TRANSFER_FROM_REMITTER + counter;
         final Double amountToTransferToBeneficiary = AMOUNT_TO_TRANSFER_TO_BENEFICIARY + counter;
-
         final LocalDate valuedAtDate = VALUED_AT_DATE.plusWeeks(counter);
         final String paymentDetails = String.format(PAYMENT_DETAILS, counter);
         final Double bankFee = BANK_FEE + counter;
@@ -132,33 +179,18 @@ public class PaymentDomainTestUtil {
         final String paymentCode = String.format(PAYMENT_CODE, counter);
 
 
-        final PaymentOrderEntity entity = new PaymentOrderEntity();
-        entity.setDocumentId(documentId);
-        entity.setClientId(clientId);
-        entity.setDocumentDate(documentDate);
-        entity.setStatus(status);
-        entity.setTermsOfService(TERMS_OF_SERVICE);
-        entity.setRemitterName(remitterName);
-        entity.setRemitterId(remitterId);
-        entity.setRemitterBankAccountNo(remitterBankAccountNo);
-        entity.setBeneficiaryName(beneficiaryName);
-        entity.setBeneficiaryId(beneficiaryId);
-        entity.setBeneficiaryAccountNo(beneficiaryAccountNo);
-        entity.setBeneficiaryResidenceCountry(beneficiaryCountry);
-        entity.setBeneficiaryBank(beneficiaryBank);
-        entity.setBeneficiaryBankCode(beneficiaryBankCode);
-        entity.setAmountInWords(amountInWords);
-        entity.setAmountToTransferFromRemitter(amountToTransferFromRemitter);
-        entity.setAmountToTransferToBeneficiary(amountToTransferToBeneficiary);
-        entity.setCurrencyType(CURRENCY_TYPE);
-        entity.setPaymentType(PAYMENT_TYPE);
-        entity.setValuedAtDate(valuedAtDate);
-        entity.setPaymentDetails(paymentDetails);
-        entity.setBankFee(bankFee);
-        entity.setExchangeRate(exchangeRate);
-        entity.setExternalPaymentCode(paymentCode);
+        paymentInformationEntity.setAmountInWords(amountInWords);
+        paymentInformationEntity.setAmountToTransferFromRemitter(amountToTransferFromRemitter);
+        paymentInformationEntity.setAmountToTransferToBeneficiary(amountToTransferToBeneficiary);
+        paymentInformationEntity.setCurrencyType(CURRENCY_TYPE);
+        paymentInformationEntity.setPaymentType(PAYMENT_TYPE);
+        paymentInformationEntity.setValuedAtDate(valuedAtDate);
+        paymentInformationEntity.setPaymentDetails(paymentDetails);
+        paymentInformationEntity.setBankFee(bankFee);
+        paymentInformationEntity.setExchangeRate(exchangeRate);
+        paymentInformationEntity.setExternalPaymentCode(paymentCode);
 
-        return entity;
+        entity.setPaymentInformationEntity(paymentInformationEntity);
     }
 
 

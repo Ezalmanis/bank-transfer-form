@@ -1,42 +1,43 @@
-package com.erikszalmanis.hw.domain.objects;
+package com.erikszalmanis.hw.domain.entities;
 
 import com.erikszalmanis.hw.domain.enums.PaymentType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.time.LocalDate;
 
-public class PaymentInformation {
+@Entity
+public class PaymentInformationEntity {
 
-    @NotEmpty
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long paymentInfoId;
+    @OneToOne(cascade = CascadeType.ALL)
+    private PaymentOrderEntity paymentOrderEntity;
     private String amountInWords;
-    @NotNull
     private Double amountToTransferFromRemitter;
-    @NotNull
     private Double amountToTransferToBeneficiary;
-    @NotEmpty
     private String currencyType;
-    @NotNull
     private PaymentType paymentType;
-    @NotNull
     private LocalDate valuedAtDate;
-    @NotEmpty
     private String paymentDetails;
-    @NotNull
     private Double bankFee;
-    @NotNull
     private Double exchangeRate;
-    @NotEmpty
     private String externalPaymentCode;
 
-    public PaymentInformation() {
+    public PaymentInformationEntity() {
     }
 
-    public PaymentInformation(@NotEmpty final String amountInWords, @NotNull final Double amountToTransferFromRemitter, @NotNull final Double amountToTransferToBeneficiary, @NotEmpty final String currencyType, @NotNull final PaymentType paymentType, @NotNull final LocalDate valuedAtDate, @NotEmpty final String paymentDetails, @NotNull final Double bankFee, @NotNull final Double exchangeRate, @NotEmpty final String externalPaymentCode) {
+    public PaymentInformationEntity(final Long paymentInfoId, final PaymentOrderEntity paymentOrderEntity, final String amountInWords, final Double amountToTransferFromRemitter, final Double amountToTransferToBeneficiary, final String currencyType, final PaymentType paymentType, final LocalDate valuedAtDate, final String paymentDetails, final Double bankFee, final Double exchangeRate, final String externalPaymentCode) {
+        this.paymentInfoId = paymentInfoId;
+        this.paymentOrderEntity = paymentOrderEntity;
         this.amountInWords = amountInWords;
         this.amountToTransferFromRemitter = amountToTransferFromRemitter;
         this.amountToTransferToBeneficiary = amountToTransferToBeneficiary;
@@ -47,6 +48,22 @@ public class PaymentInformation {
         this.bankFee = bankFee;
         this.exchangeRate = exchangeRate;
         this.externalPaymentCode = externalPaymentCode;
+    }
+
+    public Long getPaymentInfoId() {
+        return paymentInfoId;
+    }
+
+    public void setPaymentInfoId(final Long paymentInfoId) {
+        this.paymentInfoId = paymentInfoId;
+    }
+
+    public PaymentOrderEntity getPaymentOrderEntity() {
+        return paymentOrderEntity;
+    }
+
+    public void setPaymentOrderEntity(final PaymentOrderEntity paymentOrderEntity) {
+        this.paymentOrderEntity = paymentOrderEntity;
     }
 
     public String getAmountInWords() {
@@ -135,41 +152,47 @@ public class PaymentInformation {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        final PaymentInformation that = (PaymentInformation) o;
+        final PaymentInformationEntity that = (PaymentInformationEntity) o;
 
         return new EqualsBuilder()
-                .append(getAmountInWords(), that.getAmountInWords())
-                .append(getAmountToTransferFromRemitter(), that.getAmountToTransferFromRemitter())
-                .append(getAmountToTransferToBeneficiary(), that.getAmountToTransferToBeneficiary())
-                .append(getCurrencyType(), that.getCurrencyType())
-                .append(getPaymentType(), that.getPaymentType())
-                .append(getValuedAtDate(), that.getValuedAtDate())
-                .append(getPaymentDetails(), that.getPaymentDetails())
-                .append(getBankFee(), that.getBankFee())
-                .append(getExchangeRate(), that.getExchangeRate())
-                .append(getExternalPaymentCode(), that.getExternalPaymentCode())
+                .append(paymentInfoId, that.paymentInfoId)
+                .append(paymentOrderEntity, that.paymentOrderEntity)
+                .append(amountInWords, that.amountInWords)
+                .append(amountToTransferFromRemitter, that.amountToTransferFromRemitter)
+                .append(amountToTransferToBeneficiary, that.amountToTransferToBeneficiary)
+                .append(currencyType, that.currencyType)
+                .append(paymentType, that.paymentType)
+                .append(valuedAtDate, that.valuedAtDate)
+                .append(paymentDetails, that.paymentDetails)
+                .append(bankFee, that.bankFee)
+                .append(exchangeRate, that.exchangeRate)
+                .append(externalPaymentCode, that.externalPaymentCode)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getAmountInWords())
-                .append(getAmountToTransferFromRemitter())
-                .append(getAmountToTransferToBeneficiary())
-                .append(getCurrencyType())
-                .append(getPaymentType())
-                .append(getValuedAtDate())
-                .append(getPaymentDetails())
-                .append(getBankFee())
-                .append(getExchangeRate())
-                .append(getExternalPaymentCode())
+                .append(paymentInfoId)
+                .append(paymentOrderEntity)
+                .append(amountInWords)
+                .append(amountToTransferFromRemitter)
+                .append(amountToTransferToBeneficiary)
+                .append(currencyType)
+                .append(paymentType)
+                .append(valuedAtDate)
+                .append(paymentDetails)
+                .append(bankFee)
+                .append(exchangeRate)
+                .append(externalPaymentCode)
                 .toHashCode();
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+        return new ToStringBuilder(this)
+                .append("paymentInfoId", paymentInfoId)
+                .append("paymentOrderEntity", paymentOrderEntity)
                 .append("amountInWords", amountInWords)
                 .append("amountToTransferFromRemitter", amountToTransferFromRemitter)
                 .append("amountToTransferToBeneficiary", amountToTransferToBeneficiary)

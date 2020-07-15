@@ -101,10 +101,10 @@ public class SimplePaymentFormMvcTest {
     }
 
     @Test
-    public void getPayments()throws Exception{
+    public void getPayments() throws Exception {
         final List<PaymentOrder> paymentOrderList = new ArrayList<>();
 
-        for (int i=0; i<10; i++){
+        for (int i = 0; i < 10; i++) {
             final PaymentOrder expectedEntity = getCorrectPaymentOrder(i);
             paymentOrderList.add(expectedEntity);
         }
@@ -120,16 +120,4 @@ public class SimplePaymentFormMvcTest {
         Assertions.assertEquals(expectedResponse, responseString);
 
     }
-
-//    @GetMapping(value = "/payment/rates")
-//    public ExchangeRate getExchangeRate() throws NoDefaultExchangeRateException {
-//        return paymentService.getExchangeRate();
-//    }
-//
-//    @GetMapping(value = "/payments")
-//    public List<PaymentOrder> getPaymentOrders() {
-//        final List<PaymentOrder> paymentOrders = paymentService.getPaymentOrders();
-//        logger.info(String.format("Payment orders retrieved successfully: %s", paymentOrders));
-//        return paymentOrders;
-//    }
 }

@@ -4,7 +4,7 @@ package com.erikszalmanis.hw.domain.objects;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class Remitter extends BankUser {
 
@@ -39,7 +39,7 @@ public class Remitter extends BankUser {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .appendSuper(super.toString())
                 .toString();
     }

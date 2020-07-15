@@ -46,11 +46,11 @@ public class RepositoryWrapperImpl implements RepositoryFacade {
 
     @Override
     public PaymentOrderEntity getPaymentOrderByDocumentId(final Long documentId) {
-        return repository.findByDocumentId(documentId);
+        return repository.findByDocumentId(documentId).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
-    public PaymentOrder savePaymentOrder(final PaymentOrder order) throws EntityNotFoundException {
+    public PaymentOrder savePaymentOrder(final PaymentOrder order) {
         final PaymentOrderEntity entity = repository.save(paymentMapper.paymentOrderToEntity(order));
         if (entity.getDocumentId() == null) {
             throw new EntityNotFoundException();
@@ -60,14 +60,14 @@ public class RepositoryWrapperImpl implements RepositoryFacade {
 
     @Override
     public PaymentOrder updatePaymentOrder(final PaymentOrder order, final Long documentId) {
-        final PaymentOrderEntity entityToUpdate = repository.findByDocumentId(documentId);
-        entityToUpdate.updatePaymentOrder(order);
+        final PaymentOrderEntity entityToUpdate = repository.findByDocumentId(documentId).orElseThrow(EntityNotFoundException::new);
+        paymentMapper.updatePaymentOrderEntity(order, entityToUpdate);
         return paymentMapper.entityToPaymentOrder(repository.save(entityToUpdate));
     }
 
     @Override
     public PaymentStatus updatePaymentStatus(final Long documentId, final PaymentStatus status) {
-        final PaymentOrderEntity entityToUpdate = repository.findByDocumentId(documentId);
+        final PaymentOrderEntity entityToUpdate = repository.findByDocumentId(documentId).orElseThrow(EntityNotFoundException::new);
         entityToUpdate.setStatus(status);
         repository.save(entityToUpdate);
         return entityToUpdate.getStatus();

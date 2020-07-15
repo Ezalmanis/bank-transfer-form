@@ -28,6 +28,25 @@ public class PaymentOrderDomainTest {
     private static final PaymentStatus PENDING_STATUS = PaymentStatus.PENDING;
     private static final boolean TERMS_OF_SERVICE = true;
 
+    private static Beneficiary getCorrectBeneficiary() {
+        return new Beneficiary("expectedBeneficiary", PaymentOrderDomainTest.REMITTER_ID, PaymentOrderDomainTest.REMITTER_ACCOUNT_NO, "expectedCountry",
+                "expectedBank", "expectedBankCode");
+    }
+
+    ///
+    ///Auxiliary methods
+    ///
+
+    private static PaymentInformation getCorrectPaymentInformation() {
+
+        return new PaymentInformation("expectedAmount", PaymentOrderDomainTest.AMOUNT_TO_TRANSFER_FROM_REMITTER, PaymentOrderDomainTest.AMOUNT_TO_TRANSFER_FROM_BENEFICIARY, "EUR",
+                PaymentType.CASH, LocalDate.now(), "expectedDetails", PaymentOrderDomainTest.BANK_FEE, PaymentOrderDomainTest.EXCHANGE_RATE,
+                "expectedPaymentCode");
+    }
+
+    private static Remitter getCorrectRemitter() {
+        return new Remitter("expectedRemitter", PaymentOrderDomainTest.BENEFICIARY_ID, PaymentOrderDomainTest.BENEFICIARY_ACCOUNT_NO);
+    }
 
     @Test
     public void paymentOrderPopulatedCorrectly() {
@@ -44,10 +63,6 @@ public class PaymentOrderDomainTest {
 
     }
 
-    ///
-    ///Auxiliary methods
-    ///
-
     private void assertPaymentOrderPopulated(final PaymentOrder paymentOrder) {
         Assertions.assertNotNull(paymentOrder);
         Assertions.assertEquals(CLIENT_ID, paymentOrder.getClientId());
@@ -55,22 +70,6 @@ public class PaymentOrderDomainTest {
         Assertions.assertEquals(DOCUMENT_ID, paymentOrder.getDocumentId());
         Assertions.assertEquals(PENDING_STATUS, paymentOrder.getStatus());
 
-    }
-
-    private static Beneficiary getCorrectBeneficiary() {
-        return new Beneficiary("expectedBeneficiary", PaymentOrderDomainTest.REMITTER_ID, PaymentOrderDomainTest.REMITTER_ACCOUNT_NO, "expectedCountry",
-                "expectedBank", "expectedBankCode");
-    }
-
-    private static PaymentInformation getCorrectPaymentInformation() {
-
-        return new PaymentInformation("expectedAmount", PaymentOrderDomainTest.AMOUNT_TO_TRANSFER_FROM_REMITTER, PaymentOrderDomainTest.AMOUNT_TO_TRANSFER_FROM_BENEFICIARY, "EUR",
-                PaymentType.CASH, LocalDate.now(), "expectedDetails", PaymentOrderDomainTest.BANK_FEE, PaymentOrderDomainTest.EXCHANGE_RATE,
-                "expectedPaymentCode");
-    }
-
-    private static Remitter getCorrectRemitter() {
-        return new Remitter("expectedRemitter", PaymentOrderDomainTest.BENEFICIARY_ID, PaymentOrderDomainTest.BENEFICIARY_ACCOUNT_NO);
     }
 
 }

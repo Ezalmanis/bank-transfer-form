@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
@@ -20,21 +21,21 @@ public class PaymentOrder {
     private Long documentId;
     @NotNull(message = "clientId cannot be null")
     private Long clientId;
-
     @NotNull(message = "Date cannot be null")
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate documentDate;
+    @NotNull
+    private PaymentStatus status;
+    @AssertTrue(message = "Please accept Terms of service")
+    private boolean termsOfService;
     @Valid
     private Remitter remitter;
     @Valid
     private Beneficiary beneficiary;
     @Valid
     private PaymentInformation paymentInformation;
-    @NotNull
-    private PaymentStatus status;
-    @AssertTrue(message = "Please accept Terms of service")
-    private boolean termsOfService;
+
 
     public PaymentOrder() {
         this.status = PaymentStatus.PENDING;
@@ -43,21 +44,21 @@ public class PaymentOrder {
     public PaymentOrder(final Long clientId, final LocalDate documentDate, final Remitter remitter, final Beneficiary beneficiary, final PaymentInformation paymentInformation, final PaymentStatus status, final boolean termsOfService) {
         this.clientId = clientId;
         this.documentDate = documentDate;
+        this.status = status;
+        this.termsOfService = termsOfService;
         this.remitter = remitter;
         this.beneficiary = beneficiary;
         this.paymentInformation = paymentInformation;
-        this.status = status;
-        this.termsOfService = termsOfService;
     }
 
     public PaymentOrder(final Long clientId, final LocalDate documentDate, final Remitter remitter, final Beneficiary beneficiary, final PaymentInformation paymentInformation, final boolean termsOfService) {
         this.clientId = clientId;
         this.documentDate = documentDate;
+        this.status = PaymentStatus.PENDING;
+        this.termsOfService = termsOfService;
         this.remitter = remitter;
         this.beneficiary = beneficiary;
         this.paymentInformation = paymentInformation;
-        this.status = PaymentStatus.PENDING;
-        this.termsOfService = termsOfService;
     }
 
     public Long getDocumentId() {
@@ -127,15 +128,15 @@ public class PaymentOrder {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("documentId", documentId)
                 .append("clientId", clientId)
                 .append("date", documentDate)
+                .append("status", status)
+                .append("termsOfService", termsOfService)
                 .append("remitter", remitter)
                 .append("beneficiary", beneficiary)
                 .append("paymentInformation", paymentInformation)
-                .append("status", status)
-                .append("termsOfService", termsOfService)
                 .toString();
     }
 

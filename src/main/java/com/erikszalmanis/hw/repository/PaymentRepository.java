@@ -1,11 +1,12 @@
 package com.erikszalmanis.hw.repository;
 
-import com.erikszalmanis.hw.domain.enums.PaymentStatus;
 import com.erikszalmanis.hw.domain.entities.PaymentOrderEntity;
+import com.erikszalmanis.hw.domain.enums.PaymentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PaymentRepository extends JpaRepository<PaymentOrderEntity, Long> {
@@ -14,40 +15,6 @@ public interface PaymentRepository extends JpaRepository<PaymentOrderEntity, Lon
 
     List<PaymentOrderEntity> findAllByStatus(PaymentStatus status);
 
-    PaymentOrderEntity findByDocumentId(Long documentId);
-
-//        List<Task> findAllByDeletedIsFalse();
-//
-//    List<Task> findAllByDeletedIsNotNull();
-//
-//    Optional<List<Task>> findAllByDeletedIsFalseAndCompletedIsTrue();
-//
-//    Optional<Task> findById(Long id);
-    ///
-    //
-    //    List<PaymentOrderEntity> getAllPayments();
-    //
-    //    List<PaymentOrderEntity> getAllPendingPayments();
-    //
-    //    PaymentOrderEntity getPaymentOrderByDocumentId();
-    //
-    //    Long savePaymentOrder();
-    //
-    //    PaymentOrderEntity updatePaymentOrder();
-    //
-    //    PaymentStatus updatePaymentStatus();
-    ///
-    ///
-    //
-    //
-    //
-    ///
-    //
-    //
-    //
-    ///
-    //
-    //
-//
+    Optional<PaymentOrderEntity> findByDocumentId(Long documentId);
 
 }
