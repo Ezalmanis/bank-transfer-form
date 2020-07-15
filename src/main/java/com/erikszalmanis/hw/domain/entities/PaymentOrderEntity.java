@@ -25,10 +25,10 @@ public class PaymentOrderEntity {
     private boolean termsOfService;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private RemitterEntity remitterEntity;
+    private RemitterEntry remitterEntity;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private BeneficiaryEntity beneficiaryEntity;
+    private BeneficiaryEntry beneficiaryEntity;
 
     @OneToOne(cascade = CascadeType.ALL)
     private PaymentInformationEntity paymentInformationEntity;
@@ -36,7 +36,7 @@ public class PaymentOrderEntity {
     public PaymentOrderEntity() {
     }
 
-    public PaymentOrderEntity(final Long documentId, final Long clientId, final LocalDate documentDate, final PaymentStatus status, final boolean termsOfService, final RemitterEntity remitterEntity, final BeneficiaryEntity beneficiaryEntity, final PaymentInformationEntity paymentInformationEntity) {
+    public PaymentOrderEntity(final Long documentId, final Long clientId, final LocalDate documentDate, final PaymentStatus status, final boolean termsOfService, final RemitterEntry remitterEntity, final BeneficiaryEntry beneficiaryEntity, final PaymentInformationEntity paymentInformationEntity) {
         this.documentId = documentId;
         this.clientId = clientId;
         this.documentDate = documentDate;
@@ -87,19 +87,19 @@ public class PaymentOrderEntity {
         this.termsOfService = termsOfService;
     }
 
-    public RemitterEntity getRemitterEntity() {
+    public RemitterEntry getRemitterEntity() {
         return remitterEntity;
     }
 
-    public void setRemitterEntity(final RemitterEntity remitterEntity) {
+    public void setRemitterEntity(final RemitterEntry remitterEntity) {
         this.remitterEntity = remitterEntity;
     }
 
-    public BeneficiaryEntity getBeneficiaryEntity() {
+    public BeneficiaryEntry getBeneficiaryEntity() {
         return beneficiaryEntity;
     }
 
-    public void setBeneficiaryEntity(final BeneficiaryEntity beneficiaryEntity) {
+    public void setBeneficiaryEntity(final BeneficiaryEntry beneficiaryEntity) {
         this.beneficiaryEntity = beneficiaryEntity;
     }
 

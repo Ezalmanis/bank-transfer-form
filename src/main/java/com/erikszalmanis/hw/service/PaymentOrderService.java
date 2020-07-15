@@ -17,7 +17,7 @@ public interface PaymentOrderService {
 
     PaymentOrder savePaymentOrder(final PaymentOrder paymentOrder) throws OutdatedRatesException, TransferAmountDiscrepancyException, NoDefaultExchangeRateException;
 
-    void updatePaymentOrder(final PaymentOrder paymentOrder) throws EntityNotFoundException;
+    PaymentOrder updatePaymentOrder(final Long id, final PaymentOrder paymentOrder) throws EntityNotFoundException, NoDefaultExchangeRateException, OutdatedRatesException, TransferAmountDiscrepancyException;
 
     void updatePaymentStatus(final Long id, final PaymentStatus status) throws EntityNotFoundException;
 

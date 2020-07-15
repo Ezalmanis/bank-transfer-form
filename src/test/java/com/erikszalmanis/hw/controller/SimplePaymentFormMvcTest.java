@@ -60,7 +60,7 @@ public class SimplePaymentFormMvcTest {
 
         final String result = mockMvc.perform(post(URL_TEMPLATE)
                 .content(paymentJson).contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse().getContentAsString();
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andReturn().getResponse().getContentAsString();
 
         Assertions.assertEquals(expectedDocumentId, Long.valueOf(result));
 

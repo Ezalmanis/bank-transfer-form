@@ -6,19 +6,20 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
 @Entity
-public class RemitterEntity extends BankUserEntity {
+public class RemitterEntry extends BankUserEntry {
 
     @OneToOne
     private PaymentOrderEntity paymentOrderEntity;
 
-    public RemitterEntity() {
+    public RemitterEntry() {
         super();
     }
 
-    public RemitterEntity(final Long bankUserId, final String bankUserName, final Long bankAccountNo, final PaymentOrderEntity paymentOrderEntity) {
-        super(bankUserId, bankUserName, bankAccountNo);
+    public RemitterEntry(final Long bankUserEntry, final Long bankUserId, final String bankUserName, final Long bankAccountNo, final PaymentOrderEntity paymentOrderEntity) {
+        super(bankUserEntry, bankUserId, bankUserName, bankAccountNo);
         this.paymentOrderEntity = paymentOrderEntity;
     }
+
 
     public PaymentOrderEntity getPaymentOrderEntity() {
         return paymentOrderEntity;

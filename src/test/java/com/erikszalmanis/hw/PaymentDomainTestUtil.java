@@ -1,9 +1,9 @@
 package com.erikszalmanis.hw;
 
-import com.erikszalmanis.hw.domain.entities.BeneficiaryEntity;
+import com.erikszalmanis.hw.domain.entities.BeneficiaryEntry;
 import com.erikszalmanis.hw.domain.entities.PaymentInformationEntity;
 import com.erikszalmanis.hw.domain.entities.PaymentOrderEntity;
-import com.erikszalmanis.hw.domain.entities.RemitterEntity;
+import com.erikszalmanis.hw.domain.entities.RemitterEntry;
 import com.erikszalmanis.hw.domain.enums.PaymentStatus;
 import com.erikszalmanis.hw.domain.enums.PaymentType;
 import com.erikszalmanis.hw.domain.objects.Beneficiary;
@@ -135,7 +135,7 @@ public class PaymentDomainTestUtil {
     }
 
     private static void setRemitter(final int counter, final PaymentOrderEntity entity) {
-        final RemitterEntity remitterEntity = new RemitterEntity();
+        final RemitterEntry remitterEntity = new RemitterEntry();
 
         final Long remitterId = REMITTER_ID + counter;
         final Long remitterBankAccountNo = REMITTER_BANK_ACCOUNT_NO + counter;
@@ -147,7 +147,7 @@ public class PaymentDomainTestUtil {
     }
 
     private static void setBeneficiary(final int counter, final PaymentOrderEntity entity) {
-        final BeneficiaryEntity beneficiaryEntity = new BeneficiaryEntity();
+        final BeneficiaryEntry beneficiaryEntity = new BeneficiaryEntry();
 
         final Long beneficiaryId = BENEFICIARY_ID + counter;
         final Long beneficiaryAccountNo = BENEFICIARY_ACCOUNT_NO + counter;

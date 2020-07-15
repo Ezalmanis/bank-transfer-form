@@ -5,23 +5,22 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.Entity;
 
 @Entity
-public class BeneficiaryEntity extends RemitterEntity {
+public class BeneficiaryEntry extends RemitterEntry {
 
     private String residenceCountry;
     private String beneficiaryBank;
     private String bankCode;
 
-    public BeneficiaryEntity() {
+    public BeneficiaryEntry() {
         super();
     }
 
-    public BeneficiaryEntity(final Long bankUserId, final String bankUserName, final Long bankAccountNo, final PaymentOrderEntity paymentOrderEntity, final String residenceCountry, final String beneficiaryBank, final String bankCode) {
-        super(bankUserId, bankUserName, bankAccountNo, paymentOrderEntity);
+    public BeneficiaryEntry(final Long bankUserEntry, final Long bankUserId, final String bankUserName, final Long bankAccountNo, final PaymentOrderEntity paymentOrderEntity, final String residenceCountry, final String beneficiaryBank, final String bankCode) {
+        super(bankUserEntry, bankUserId, bankUserName, bankAccountNo, paymentOrderEntity);
         this.residenceCountry = residenceCountry;
         this.beneficiaryBank = beneficiaryBank;
         this.bankCode = bankCode;
     }
-
 
     public String getResidenceCountry() {
         return residenceCountry;

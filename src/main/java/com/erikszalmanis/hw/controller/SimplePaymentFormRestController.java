@@ -11,11 +11,13 @@ import com.erikszalmanis.hw.validator.ValueOfEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
@@ -36,6 +38,7 @@ public class SimplePaymentFormRestController {
     }
 
     @PostMapping(value = "/payment", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
     public Long createNewPaymentRequest(@Validated @RequestBody final PaymentOrder paymentOrder) throws OutdatedRatesException, TransferAmountDiscrepancyException, NoDefaultExchangeRateException {
         final PaymentOrder savedOrder = paymentService.savePaymentOrder(paymentOrder);
         logger.info(("PaymentOrder created successfully: {}"), savedOrder);
@@ -59,6 +62,12 @@ public class SimplePaymentFormRestController {
         final List<PaymentOrder> paymentOrders = paymentService.getPaymentOrders();
         logger.info(("Payment orders retrieved successfully: {}"), paymentOrders);
         return paymentOrders;
+    }
+
+    @PostMapping(value = "/payment/{id}", consumes = "application/json")
+    public void updatePayment(@NotNull @PathVariable final Long id, @Validated @RequestBody final PaymentOrder paymentOrder) throws OutdatedRatesException, TransferAmountDiscrepancyException, NoDefaultExchangeRateException, EntityNotFoundException {
+        final PaymentOrder updatedOrder = paymentService.updatePaymentOrder(id, paymentOrder);
+        logger.info(("PaymentOrder updated successfully: {}"), updatedOrder);
     }
 
 }

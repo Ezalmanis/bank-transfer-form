@@ -1,9 +1,9 @@
 package com.erikszalmanis.hw.mapper.impl;
 
-import com.erikszalmanis.hw.domain.entities.BeneficiaryEntity;
+import com.erikszalmanis.hw.domain.entities.BeneficiaryEntry;
 import com.erikszalmanis.hw.domain.entities.PaymentInformationEntity;
 import com.erikszalmanis.hw.domain.entities.PaymentOrderEntity;
-import com.erikszalmanis.hw.domain.entities.RemitterEntity;
+import com.erikszalmanis.hw.domain.entities.RemitterEntry;
 import com.erikszalmanis.hw.domain.objects.Beneficiary;
 import com.erikszalmanis.hw.domain.objects.PaymentInformation;
 import com.erikszalmanis.hw.domain.objects.PaymentOrder;
@@ -54,7 +54,7 @@ public class SimplePaymentMapperImpl implements SimplePaymentMapper {
             return null;
         }
         final Beneficiary beneficiary = new Beneficiary();
-        final BeneficiaryEntity source = entity.getBeneficiaryEntity();
+        final BeneficiaryEntry source = entity.getBeneficiaryEntity();
 
         beneficiary.setBankAccountNo(source.getBankAccountNo());
         beneficiary.setBankUserId(source.getBankUserId());
@@ -74,7 +74,7 @@ public class SimplePaymentMapperImpl implements SimplePaymentMapper {
         }
 
         final Remitter remitter = new Remitter();
-        final RemitterEntity source = entity.getRemitterEntity();
+        final RemitterEntry source = entity.getRemitterEntity();
         remitter.setBankAccountNo(source.getBankAccountNo());
         remitter.setBankUserId(source.getBankUserId());
         remitter.setBankUserName(source.getBankUserName());
@@ -108,7 +108,7 @@ public class SimplePaymentMapperImpl implements SimplePaymentMapper {
 
     private void remitterToEntity(final PaymentOrderEntity orderEntity, final Remitter source) {
         if (source != null && orderEntity != null) {
-            final RemitterEntity remitterEntity = new RemitterEntity();
+            final RemitterEntry remitterEntity = new RemitterEntry();
             remitterEntity.setBankUserId(source.getBankUserId());
             remitterEntity.setBankUserName(source.getBankUserName());
             remitterEntity.setBankAccountNo(source.getBankAccountNo());
@@ -136,7 +136,7 @@ public class SimplePaymentMapperImpl implements SimplePaymentMapper {
 
     private void beneficiaryToEntity(final PaymentOrderEntity orderEntity, final Beneficiary source) {
         if (source != null && orderEntity != null) {
-            final BeneficiaryEntity beneficiaryEntity = new BeneficiaryEntity();
+            final BeneficiaryEntry beneficiaryEntity = new BeneficiaryEntry();
             beneficiaryEntity.setBankCode(source.getBeneficiaryBankCode());
             beneficiaryEntity.setBeneficiaryBank(source.getBeneficiaryBank());
             beneficiaryEntity.setResidenceCountry(source.getBeneficiaryResidenceCountry());

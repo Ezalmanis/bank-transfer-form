@@ -4,22 +4,28 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class BankUserEntity {
+public class BankUserEntry {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long bankUserEntry;
+
     private Long bankUserId;
 
     private String bankUserName;
 
     private Long bankAccountNo;
 
-    public BankUserEntity() {
+    public BankUserEntry() {
     }
 
-    public BankUserEntity(final Long bankUserId, final String bankUserName, final Long bankAccountNo) {
+    public BankUserEntry(final Long bankUserEntry, final Long bankUserId, final String bankUserName, final Long bankAccountNo) {
+        this.bankUserEntry = bankUserEntry;
         this.bankUserId = bankUserId;
         this.bankUserName = bankUserName;
         this.bankAccountNo = bankAccountNo;
@@ -56,7 +62,7 @@ public class BankUserEntity {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        final BankUserEntity that = (BankUserEntity) o;
+        final BankUserEntry that = (BankUserEntry) o;
 
         return new EqualsBuilder()
                 .append(bankUserId, that.bankUserId)

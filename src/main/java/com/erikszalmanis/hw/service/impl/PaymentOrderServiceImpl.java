@@ -53,9 +53,10 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
     }
 
     @Override
-    public void updatePaymentOrder(final PaymentOrder paymentOrder) {
-        final Long documentId = paymentOrder.getDocumentId();
-        orderRepository.updatePaymentOrder(paymentOrder, documentId);
+    public PaymentOrder updatePaymentOrder(final Long id, final PaymentOrder paymentOrder) throws NoDefaultExchangeRateException, OutdatedRatesException, TransferAmountDiscrepancyException {
+        areExchangeRatesUpToDate(paymentOrder);
+        isTransferAmountCorrect(paymentOrder);
+        return orderRepository.updatePaymentOrder(paymentOrder, id);
     }
 
     @Override
