@@ -1,0 +1,54 @@
+.flexcontainer {
+    display: flex;
+}
+
+.flexleftcollumn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-self: start;
+}
+
+.flexleftcollumn > div.flexallignend {
+    align-self: end;
+}
+
+.flexstart{
+    align-self: start;
+}
+h2 {
+    text-align: left;
+}
+
+.accessibility{
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+div.flexallignend >input {
+    align-self: end;
+}
+
+.flexleftcollumn > div {
+    align-self: start;
+}
+
+.flexleftcollumn > input {
+    align-self: start;
+}
+
+.flexright {
+    flex: 1;
+    align-items: flex-end;
+    justify-content: left;
+}
+
+hr.formseparator {
+    width: 95%;
+}
