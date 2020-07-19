@@ -1,5 +1,6 @@
 import React from "react";
 import style from "../../../../css/FormModule.module.css";
+import {TermsOfServiceForm} from "./components/TermsOfServiceForm";
 
 export function SignatureForm() {
     // const count = useSelector(selectCount);
@@ -8,6 +9,8 @@ export function SignatureForm() {
 
     return (
         <div>
+            <h2>Terms Of Service</h2>
+            <TermsOfServiceForm/>
             <hr className={style.formseparator}/>
         </div>
     );

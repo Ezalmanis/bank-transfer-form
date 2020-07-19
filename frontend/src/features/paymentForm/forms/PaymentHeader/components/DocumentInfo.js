@@ -1,18 +1,16 @@
-import React from "react";
 import style from "../../../../../css/FormModule.module.css";
+import React from "react";
 
-export function RemitterEntryNames() {
+
+export function DocumentInfo() {
 
     return (
         <div className={style.flexleftcollumn}>
             <div>
-                Name, Surname
+                Customer Number
             </div>
             <div>
-                Personal ID number
-            </div>
-            <div>
-                Account Number
+                Current Date
             </div>
         </div>
     );

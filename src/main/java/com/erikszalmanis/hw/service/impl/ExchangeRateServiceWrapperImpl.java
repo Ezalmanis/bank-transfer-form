@@ -35,10 +35,15 @@ public class ExchangeRateServiceWrapperImpl implements ExchangeRateServiceWrappe
         this.mapper = mapper;
     }
 
+    //TODO, add get exchange rate for specific date.
     @Override
     public ExchangeRate getExchangeRates() throws NoDefaultExchangeRateException {
+        final LocalDate today = LocalDate.now();
         try {
-            return getExchangeRateFromApi();
+            final ExchangeRate rates =  getExchangeRateFromApi();
+            logger.info(("Exchange rates for date: {}"), rates.getDate());
+            logger.info(("Exchange rates are {} days old"), today.compareTo(rates.getDate()));
+            return rates;
         } catch (final NoRatesFoundException e) {
             final ExchangeRate rates = getDefaultExchangeRates();
             logger.warn("Fetching default exchange rates");
@@ -50,15 +55,9 @@ public class ExchangeRateServiceWrapperImpl implements ExchangeRateServiceWrappe
 
     @Cacheable("rates")
     public ExchangeRate getExchangeRateFromApi() throws NoRatesFoundException {
-
-        final LocalDate today = LocalDate.now();
-
         final ResponseEntity<ExchangeRate> response = restTemplate.getForEntity("https://api.exchangeratesapi.io/latest", ExchangeRate.class);
         if(response.getStatusCode().is2xxSuccessful() && response.hasBody()){
-            final ExchangeRate rates = Optional.ofNullable(response.getBody()).orElseThrow(NoRatesFoundException::new);
-            logger.info(("Exchange rates for date: {}"), rates.getDate());
-            logger.info(("Exchange rates are {} days old"), today.compareTo(rates.getDate()));
-            return rates;
+            return Optional.ofNullable(response.getBody()).orElseThrow(NoRatesFoundException::new);
         }else throw new NoRatesFoundException();
     }
 

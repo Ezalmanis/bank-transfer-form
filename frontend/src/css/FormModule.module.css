@@ -1,21 +1,32 @@
 .flexcontainer {
     display: flex;
+    align-items: stretch;
+    flex-direction: row;
+}
+
+.bankInformation{
+    font-size: calc(10px + 1vmin);
 }
 
 .flexleftcollumn {
     flex: 1;
     display: flex;
+    align-items: flex-start;
+    align-content: stretch;
     flex-direction: column;
-    align-self: start;
+    align-self: stretch;
 }
 
 .flexleftcollumn > div.flexallignend {
-    align-self: end;
+    align-self: flex-end;
+    flex: 1;
+    display: flex;
 }
 
 .flexstart{
-    align-self: start;
+    align-self: flex-start;
 }
+
 h2 {
     text-align: left;
 }
@@ -31,21 +42,34 @@ h2 {
     width: 1px;
 }
 
-div.flexallignend >input {
-    align-self: end;
+.flexallignend >input {
+    display: flex;
+    align-self: flex-end;
+    flex: 1;
 }
 
 .flexleftcollumn > div {
-    align-self: start;
+    display: flex;
+    align-self: flex-start;
+    flex: 1;
 }
 
 .flexleftcollumn > input {
-    align-self: start;
+    flex-direction: row;
+    align-self: flex-start;
+    flex: 1;
+    display: flex;
 }
 
 .flexright {
-    flex: 1;
+    display: flex;
     align-items: flex-end;
+    justify-content: left;
+}
+
+.flexleft {
+    display: flex;
+    align-items: flex-start;
     justify-content: left;
 }
 

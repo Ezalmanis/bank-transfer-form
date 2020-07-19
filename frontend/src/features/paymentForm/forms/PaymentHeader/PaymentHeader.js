@@ -1,36 +1,27 @@
 import React from "react";
 import style from "../../../../css/FormModule.module.css";
+import bankLogo from "../../../../gentlemanparrot.gif";
+import {DocumentInfo} from "./components/DocumentInfo";
+import {DocumentInfoInputs} from "./components/DocumentInfoInputs";
+import {useDispatch} from "react-redux";
 
 export function PaymentHeader() {
-    // const count = useSelector(selectCount);
-    // const dispatch = useDispatch();
-    // const [incrementAmount, setIncrementAmount] = useState('2');
-
-    const customerNumberLabel= 'Customer Number';
-    const currentDateLabel= 'Current Date';
 
     return (
         <div>
             <h1>Payment Order</h1>
             <h2>Bank information</h2>
-            <div className={style.flexcontainer}>
-                <div className={style.flexleftcollumn}>
-                    <div>Demo bank name here</div>
-                    <div>Demo bank Address here</div>
-                </div>
+            <img src={bankLogo} className="BankLogo" alt="Bank logo"/>
+            <div className={style.flexleftcollumn}>
+                <div className={style.bankInformation}>Gentleman Parrot Bank, Reg. nr 123456</div>
+                <div className={style.bankInformation}>Demo street 50A, Paradise, PI-000, Parrot Island</div>
+            </div>
+            <h2>Document information</h2>
+            <hr/>
 
-                <div className={style.flexcontainer}>
-                    <div className={style.flexleftcollumn}>
-                        <div className={style.flexallignend}>
-                            <label for={'customerNumber'}> {customerNumberLabel}</label>
-                            <input id={'customerNumber'} name={'customer number'}/>
-                        </div>
-                        <div className={style.flexallignend}>
-                            <label for={'date'}>{currentDateLabel}</label>
-                            <input id={'date'} name={ 'Current Date' }/>
-                        </div>
-                    </div>
-                </div>
+            <div className={style.flexcontainer}>
+                <DocumentInfo/>
+                <DocumentInfoInputs/>
             </div>
             <hr className={style.formseparator}/>
         </div>

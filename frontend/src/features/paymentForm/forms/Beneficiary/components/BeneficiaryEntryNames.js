@@ -1,7 +1,6 @@
 import React from "react";
 import style from "../../../../../css/FormModule.module.css";
 
-//TODO, work on this
 export function BeneficiaryEntryNames() {
 
     return (
@@ -10,10 +9,19 @@ export function BeneficiaryEntryNames() {
                 Name, Surname
             </div>
             <div>
-                Registration info
+                Personal ID number
             </div>
             <div>
-                Account Number
+                Bank Code
+            </div>
+            <div>
+                Beneficiary bank
+            </div>
+            <div>
+                Account number
+            </div>
+            <div>
+                Residence country
             </div>
         </div>
     );
