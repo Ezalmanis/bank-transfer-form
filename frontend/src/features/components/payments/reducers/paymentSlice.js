@@ -100,7 +100,7 @@ export const paymentSlice = createSlice({
         paymentDetails: (state, action) => {
             state.paymentInformation.paymentDetails = action.payload;
         },
-        bankFee: (state, action) => {
+        bankFeeAmount: (state, action) => {
             state.paymentInformation.bankFee = action.payload;
         },
         exchangeRate: (state, action) => {
@@ -133,7 +133,7 @@ export const {
     paymentType,
     valuedAtDate,
     paymentDetails,
-    bankFee,
+    bankFeeAmount,
     exchangeRate,
     externalPaymentCode
 } = paymentSlice.actions;

@@ -2,14 +2,14 @@ import style from "../../../../../css/FormModule.module.css";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import {useDispatch, useSelector} from "react-redux";
-import {amountToTransferFromRemitter} from "../../../../components/payments/reducers/paymentSlice";
+import { bankFeeAmount} from "../../../../components/payments/reducers/paymentSlice";
 
 export function BankFee() {
 
 
     const dispatch = useDispatch();
     const defaultFee = 1.02
-    dispatch(amountToTransferFromRemitter(defaultFee));
+    dispatch(bankFeeAmount(defaultFee));
     const bankFeeLabel = 'Bank Fee'
 
     return (
