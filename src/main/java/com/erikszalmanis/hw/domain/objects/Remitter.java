@@ -12,7 +12,7 @@ public class Remitter extends BankUser {
         super();
     }
 
-    public Remitter(final String remitterName, final Long remitterId, final Long remitterBankAccountNo) {
+    public Remitter(final String remitterName, final String remitterId, final String remitterBankAccountNo) {
         super(remitterName, remitterId, remitterBankAccountNo);
     }
 

@@ -15,7 +15,7 @@ public class BeneficiaryEntry extends RemitterEntry {
         super();
     }
 
-    public BeneficiaryEntry(final Long bankUserEntry, final Long bankUserId, final String bankUserName, final Long bankAccountNo, final PaymentOrderEntity paymentOrderEntity, final String residenceCountry, final String beneficiaryBank, final String bankCode) {
+    public BeneficiaryEntry(final Long bankUserEntry, final String bankUserId, final String bankUserName, final String bankAccountNo, final PaymentOrderEntity paymentOrderEntity, final String residenceCountry, final String beneficiaryBank, final String bankCode) {
         super(bankUserEntry, bankUserId, bankUserName, bankAccountNo, paymentOrderEntity);
         this.residenceCountry = residenceCountry;
         this.beneficiaryBank = beneficiaryBank;

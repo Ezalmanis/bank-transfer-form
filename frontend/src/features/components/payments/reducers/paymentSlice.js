@@ -1,40 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {InitialPaymentState} from "./InitialPaymentState";
+
+const initialState = {...InitialPaymentState};
 
 export const paymentSlice = createSlice({
     name: 'payment',
-    initialState: {
-        documentId: 1,
-        clientId: 4001,
-        documentDate: null,
-        status: 'PENDING',
-        termsOfService: false,
-        remitter: {
-            bankUserName: "TestPayment",
-            bankUserId: 101,
-            bankAccountNo: 201
-        },
-        beneficiary: {
-            bankUserName: "TestPayment",
-            bankUserId: 301,
-            bankAccountNo: 401,
-            beneficiaryResidenceCountry: "TestPayment",
-            beneficiaryBank: "TestPayment",
-            beneficiaryBankCode: "TestPayment"
-        },
-        paymentInformation: {
-            amountInWords: "TestPayment",
-            amountToTransferFromRemitter: 22.02,
-            amountToTransferToBeneficiary: 22.02,
-            currencyType: null,
-            paymentType: "CASH",
-            valuedAtDate: null,
-            paymentDetails: "TestPayment",
-            bankFee: 1.02,
-            exchangeRate: 2.02,
-            externalPaymentCode: "TestPayment"
-        }
-
-    },
+    initialState: initialState,
 
     reducers: {
         clientId: (state, action) => {
@@ -92,10 +63,7 @@ export const paymentSlice = createSlice({
             state.paymentInformation.paymentType = action.payload;
         },
         valuedAtDate: (state, action) => {
-            console.log(JSON.stringify(state));
-            console.log(action.payload);
             state.paymentInformation.valuedAtDate = action.payload;
-            console.log(state.paymentInformation.valuedAtDate)
         },
         paymentDetails: (state, action) => {
             state.paymentInformation.paymentDetails = action.payload;
@@ -109,6 +77,7 @@ export const paymentSlice = createSlice({
         externalPaymentCode: (state, action) => {
             state.paymentInformation.externalPaymentCode = action.payload;
         },
+
     },
 });
 
@@ -135,7 +104,7 @@ export const {
     paymentDetails,
     bankFeeAmount,
     exchangeRate,
-    externalPaymentCode
+    externalPaymentCode,
 } = paymentSlice.actions;
 
 // The function below is called a selector and allows us to select a value from

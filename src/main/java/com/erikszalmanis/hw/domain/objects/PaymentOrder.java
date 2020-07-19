@@ -20,7 +20,7 @@ public class PaymentOrder {
 
     private Long documentId;
     @NotNull(message = "clientId cannot be null")
-    private Long clientId;
+    private String clientId;
     @NotNull(message = "Date cannot be null")
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -41,7 +41,7 @@ public class PaymentOrder {
         this.status = PaymentStatus.PENDING;
     }
 
-    public PaymentOrder(final Long clientId, final LocalDate documentDate, final Remitter remitter, final Beneficiary beneficiary, final PaymentInformation paymentInformation, final PaymentStatus status, final boolean termsOfService) {
+    public PaymentOrder(final String clientId, final LocalDate documentDate, final Remitter remitter, final Beneficiary beneficiary, final PaymentInformation paymentInformation, final PaymentStatus status, final boolean termsOfService) {
         this.clientId = clientId;
         this.documentDate = documentDate;
         this.status = status;
@@ -51,7 +51,7 @@ public class PaymentOrder {
         this.paymentInformation = paymentInformation;
     }
 
-    public PaymentOrder(final Long clientId, final LocalDate documentDate, final Remitter remitter, final Beneficiary beneficiary, final PaymentInformation paymentInformation, final boolean termsOfService) {
+    public PaymentOrder(final String clientId, final LocalDate documentDate, final Remitter remitter, final Beneficiary beneficiary, final PaymentInformation paymentInformation, final boolean termsOfService) {
         this.clientId = clientId;
         this.documentDate = documentDate;
         this.status = PaymentStatus.PENDING;
@@ -69,11 +69,11 @@ public class PaymentOrder {
         this.documentId = documentId;
     }
 
-    public Long getClientId() {
+    public String getClientId() {
         return clientId;
     }
 
-    public void setClientId(final Long clientId) {
+    public void setClientId(final String clientId) {
         this.clientId = clientId;
     }
 

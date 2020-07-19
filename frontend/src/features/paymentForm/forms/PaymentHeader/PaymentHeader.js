@@ -3,7 +3,6 @@ import style from "../../../../css/FormModule.module.css";
 import bankLogo from "../../../../gentlemanparrot.gif";
 import {DocumentInfo} from "./components/DocumentInfo";
 import {DocumentInfoInputs} from "./components/DocumentInfoInputs";
-import {useDispatch} from "react-redux";
 
 export function PaymentHeader() {
 

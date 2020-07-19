@@ -19,7 +19,7 @@ public class PaymentOrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long documentId;
-    private Long clientId;
+    private String clientId;
     private LocalDate documentDate;
     private PaymentStatus status;
     private boolean termsOfService;
@@ -36,7 +36,7 @@ public class PaymentOrderEntity {
     public PaymentOrderEntity() {
     }
 
-    public PaymentOrderEntity(final Long documentId, final Long clientId, final LocalDate documentDate, final PaymentStatus status, final boolean termsOfService, final RemitterEntry remitterEntity, final BeneficiaryEntry beneficiaryEntity, final PaymentInformationEntity paymentInformationEntity) {
+    public PaymentOrderEntity(final Long documentId, final String clientId, final LocalDate documentDate, final PaymentStatus status, final boolean termsOfService, final RemitterEntry remitterEntity, final BeneficiaryEntry beneficiaryEntity, final PaymentInformationEntity paymentInformationEntity) {
         this.documentId = documentId;
         this.clientId = clientId;
         this.documentDate = documentDate;
@@ -55,11 +55,11 @@ public class PaymentOrderEntity {
         this.documentId = documentId;
     }
 
-    public Long getClientId() {
+    public String getClientId() {
         return clientId;
     }
 
-    public void setClientId(final Long clientId) {
+    public void setClientId(final String clientId) {
         this.clientId = clientId;
     }
 

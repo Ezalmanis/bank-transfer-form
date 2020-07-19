@@ -12,6 +12,7 @@ export function DocumentInfoInputs() {
     const dateToday = dateNow();
     const dispatch = useDispatch();
     dispatch(documentDate(dateToday));
+    let currentDate = useSelector((state=>state.payment.documentDate));
 
     return (
         <div className={style.flexleftcollumn}>
@@ -19,7 +20,6 @@ export function DocumentInfoInputs() {
                 <label className={style.accessibility} htmlFor={'customerNumber'}> {customerNumberLabel}</label>
                 <TextField  id={'customerNumber'}
                             name={'Customer number'}
-                            value={useSelector((state=>state.payment.clientId))}
                             onChange={(event) => dispatch(clientId(event.target.value))
                 }/>
             </div>
@@ -28,7 +28,8 @@ export function DocumentInfoInputs() {
                 <TextField id={'date'}
                            name={'Current Date'}
                            type={'date'}
-                           value={useSelector((state=>state.payment.documentDate))} disabled={true}/>
+                           value={currentDate}
+                           disabled={true}/>
             </div>
         </div>
 

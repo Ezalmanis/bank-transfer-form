@@ -13,17 +13,16 @@ public class BankUser {
     @NotEmpty(message = "Bank users name must be present")
     private String bankUserName;
 
-    @NotNull(message = "Bank users identification number must be present")
-    private Long bankUserId;
+    private String bankUserId;
 
     @NotNull(message = "Bank account number must be present")
-    private Long bankAccountNo;
+    private String bankAccountNo;
 
 
     public BankUser() {
     }
 
-    public BankUser(final String bankUserName, final Long bankUserId, final Long bankAccountNo) {
+    public BankUser(final String bankUserName, final String bankUserId, final String bankAccountNo) {
         this.bankUserName = bankUserName;
         this.bankUserId = bankUserId;
         this.bankAccountNo = bankAccountNo;
@@ -37,19 +36,19 @@ public class BankUser {
         this.bankUserName = bankUserName;
     }
 
-    public Long getBankUserId() {
+    public String getBankUserId() {
         return bankUserId;
     }
 
-    public void setBankUserId(final Long bankUserId) {
+    public void setBankUserId(final String bankUserId) {
         this.bankUserId = bankUserId;
     }
 
-    public Long getBankAccountNo() {
+    public String getBankAccountNo() {
         return bankAccountNo;
     }
 
-    public void setBankAccountNo(final Long bankAccountNo) {
+    public void setBankAccountNo(final String bankAccountNo) {
         this.bankAccountNo = bankAccountNo;
     }
 

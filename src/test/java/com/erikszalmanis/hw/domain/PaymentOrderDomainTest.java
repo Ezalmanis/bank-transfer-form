@@ -13,17 +13,17 @@ import java.time.LocalDate;
 
 public class PaymentOrderDomainTest {
 
-    private static final Long REMITTER_ID = 123L;
-    private static final Long BENEFICIARY_ID = 321L;
-    private static final Long BENEFICIARY_ACCOUNT_NO = 100L;
-    private static final Long REMITTER_ACCOUNT_NO = 200L;
+    private static final String REMITTER_ID = "123";
+    private static final String BENEFICIARY_ID = "321L";
+    private static final String BENEFICIARY_ACCOUNT_NO = "100B";
+    private static final String REMITTER_ACCOUNT_NO = "200R";
     private static final Double AMOUNT_TO_TRANSFER_FROM_REMITTER = 200.2d;
     private static final Double AMOUNT_TO_TRANSFER_FROM_BENEFICIARY = 200.2d;
     private static final Double BANK_FEE = 0.2d;
     private static final Double EXCHANGE_RATE = 1.1212d;
     private static final Long DOCUMENT_ID = 300L;
 
-    private static final Long CLIENT_ID = 213L;
+    private static final String CLIENT_ID = "213C";
     private static final LocalDate TODAY = LocalDate.now();
     private static final PaymentStatus PENDING_STATUS = PaymentStatus.PENDING;
     private static final boolean TERMS_OF_SERVICE = true;
@@ -60,7 +60,6 @@ public class PaymentOrderDomainTest {
         Assertions.assertEquals(expectedBeneficiary, expectedPaymentOrder.getBeneficiary());
         Assertions.assertEquals(expectedRemitter, expectedPaymentOrder.getRemitter());
         Assertions.assertEquals(expectedPaymentInformation, expectedPaymentOrder.getPaymentInformation());
-
     }
 
     private void assertPaymentOrderPopulated(final PaymentOrder paymentOrder) {
@@ -69,7 +68,5 @@ public class PaymentOrderDomainTest {
         Assertions.assertEquals(TODAY, paymentOrder.getDocumentDate());
         Assertions.assertEquals(DOCUMENT_ID, paymentOrder.getDocumentId());
         Assertions.assertEquals(PENDING_STATUS, paymentOrder.getStatus());
-
     }
-
 }

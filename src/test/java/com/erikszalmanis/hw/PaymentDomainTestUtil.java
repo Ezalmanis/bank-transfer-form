@@ -19,17 +19,17 @@ import java.util.List;
 public class PaymentDomainTestUtil {
 
     private static final Long DOCUMENT_ID = 1L;
-    private static final Long CLIENT_ID = 4000L;
+    private static final String CLIENT_ID = "4000C";
     private static final LocalDate DOCUMENT_DATE = LocalDate.now();
     private static final boolean TERMS_OF_SERVICE = true;
     private static final List<PaymentStatus> PAYMENT_STATUSES = Collections.unmodifiableList(Arrays.asList(PaymentStatus.values()));
 
-    private static final Long REMITTER_ID = 100L;
-    private static final Long REMITTER_BANK_ACCOUNT_NO = 200L;
+    private static final String REMITTER_ID = "100R";
+    private static final String REMITTER_BANK_ACCOUNT_NO = "200B";
     private static final String REMITTER_NAME = "remitterName%s";
 
-    private static final Long BENEFICIARY_ID = 300L;
-    private static final Long BENEFICIARY_ACCOUNT_NO = 400L;
+    private static final String BENEFICIARY_ID = "300B";
+    private static final String BENEFICIARY_ACCOUNT_NO = "400B";
     private static final String BENEFICIARY_NAME = "beneficiaryName%s";
     private static final String BENEFICIARY_COUNTRY = "beneficiaryCountry%s";
     private static final String BENEFICIARY_BANK = "beneficiaryBank%s";
@@ -49,7 +49,7 @@ public class PaymentDomainTestUtil {
 
     public static PaymentOrder getCorrectPaymentOrder(final int counter) {
         final Long documentId = DOCUMENT_ID + counter;
-        final Long clientId = CLIENT_ID + counter;
+        final String clientId = CLIENT_ID + counter;
         final LocalDate documentDate = DOCUMENT_DATE.plusDays(counter);
 
         final PaymentStatus paymentStatus = PAYMENT_STATUSES.get(counter % PAYMENT_STATUSES.size());
@@ -71,8 +71,8 @@ public class PaymentDomainTestUtil {
     }
 
     static Beneficiary getCorrectBeneficiary(final int counter) {
-        final Long beneficiaryId = BENEFICIARY_ID + counter;
-        final Long beneficiaryAccountNo = BENEFICIARY_ACCOUNT_NO + counter;
+        final String beneficiaryId = BENEFICIARY_ID + counter;
+        final String beneficiaryAccountNo = BENEFICIARY_ACCOUNT_NO + counter;
         final String beneficiaryName = String.format(BENEFICIARY_NAME, counter);
         final String beneficiaryCountry = String.format(BENEFICIARY_COUNTRY, counter);
         final String beneficiaryBank = String.format(BENEFICIARY_BANK, counter);
@@ -99,8 +99,8 @@ public class PaymentDomainTestUtil {
     }
 
     static Remitter getCorrectRemitter(final int counter) {
-        final Long remitterId = REMITTER_ID + counter;
-        final Long remitterBankAccountNo = REMITTER_BANK_ACCOUNT_NO + counter;
+        final String remitterId = REMITTER_ID + counter;
+        final String remitterBankAccountNo = REMITTER_BANK_ACCOUNT_NO + counter;
         final String remitterName = String.format(REMITTER_NAME, counter);
         return new Remitter(remitterName, remitterId, remitterBankAccountNo);
     }
@@ -123,7 +123,7 @@ public class PaymentDomainTestUtil {
 
     private static void setPaymentEntity(final int counter, final PaymentOrderEntity entity) {
         final Long documentId = DOCUMENT_ID + counter;
-        final Long clientId = CLIENT_ID + counter;
+        final String clientId = CLIENT_ID + counter;
         final LocalDate documentDate = DOCUMENT_DATE.plusDays(counter);
         final PaymentStatus status = PAYMENT_STATUSES.get(counter % PAYMENT_STATUSES.size());
 
@@ -137,8 +137,8 @@ public class PaymentDomainTestUtil {
     private static void setRemitter(final int counter, final PaymentOrderEntity entity) {
         final RemitterEntry remitterEntity = new RemitterEntry();
 
-        final Long remitterId = REMITTER_ID + counter;
-        final Long remitterBankAccountNo = REMITTER_BANK_ACCOUNT_NO + counter;
+        final String remitterId = REMITTER_ID + counter;
+        final String remitterBankAccountNo = REMITTER_BANK_ACCOUNT_NO + counter;
         final String remitterName = String.format(REMITTER_NAME, counter);
         remitterEntity.setBankUserName(remitterName);
         remitterEntity.setBankUserId(remitterId);
@@ -149,8 +149,8 @@ public class PaymentDomainTestUtil {
     private static void setBeneficiary(final int counter, final PaymentOrderEntity entity) {
         final BeneficiaryEntry beneficiaryEntity = new BeneficiaryEntry();
 
-        final Long beneficiaryId = BENEFICIARY_ID + counter;
-        final Long beneficiaryAccountNo = BENEFICIARY_ACCOUNT_NO + counter;
+        final String beneficiaryId = BENEFICIARY_ID + counter;
+        final String beneficiaryAccountNo = BENEFICIARY_ACCOUNT_NO + counter;
         final String beneficiaryName = String.format(BENEFICIARY_NAME, counter);
         final String beneficiaryCountry = String.format(BENEFICIARY_COUNTRY, counter);
         final String beneficiaryBank = String.format(BENEFICIARY_BANK, counter);

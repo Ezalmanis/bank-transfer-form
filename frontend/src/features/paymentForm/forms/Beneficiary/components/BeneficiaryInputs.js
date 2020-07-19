@@ -6,7 +6,6 @@ import {
     beneficiaryBank,
     beneficiaryBankAccountNo, beneficiaryBankCode, beneficiaryBankUserId,
     beneficiaryBankUserName, beneficiaryResidenceCountry,
-    remitterBankAccountNo
 } from "../../../../components/payments/reducers/paymentSlice";
 
 export function BeneficiaryInputs() {

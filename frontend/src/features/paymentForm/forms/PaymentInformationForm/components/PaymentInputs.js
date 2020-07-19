@@ -8,11 +8,9 @@ import {PaymentType} from "./PaymentType";
 import {ValueDate} from "./ValueDate";
 import {AmountInWords} from "./AmountInWords";
 import {PaymentDetails} from "./PaymentDetails";
-import TextField from "@material-ui/core/TextField";
+import {ExternalPaymentDetails} from "./ExternalPaymentDetails";
 
 export function PaymentInputs() {
-
-    const externalPaymentLabel = 'Code of external payment';
 
     return (
         <div className={style.flexcontainer}>
@@ -25,10 +23,7 @@ export function PaymentInputs() {
                     <PaymentType/>
                     <ExchangeRate/>
                     <ValueDate/>
-                    <div className={style.flexallignend} >
-                        <label className={style.accessibility} htmlFor={'externalPayment'}> {externalPaymentLabel}</label>
-                        <TextField id={'externalPayment'} name={externalPaymentLabel}/>
-                    </div>
+                    <ExternalPaymentDetails/>
                     <PaymentDetails/>
                 </div>
             </div>

@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {CreatePayment, GetExchangeRate, GetPayments, UpdatePaymentStatus} from "./RestConfig";
-import {useDispatch, useSelector} from 'react-redux';
-import {currencyType, exchangeRate, selectPayment, valuedAtDate,} from '../reducers/paymentSlice';
+import {GetExchangeRate, GetPayments, UpdatePaymentStatus} from "./RestConfig";
+import {useDispatch} from 'react-redux';
+import {currencyType, exchangeRate, valuedAtDate,} from '../reducers/paymentSlice';
 
 
 export const UseFetchPayments = () => {
-    const [hasError, setErrors] = useState(false);
     const [payments, setPayments] = useState({});
 
     function fetchPayments() {
@@ -49,7 +48,6 @@ export const UseFetchExchangeRate = () => {
     useEffect(() => {
         fetchRates()
     }, []);
-    console.log(JSON.stringify(useSelector(selectPayment)))
     return ({exchangeRateResponse});
 };
 
@@ -76,15 +74,4 @@ export const UseUpdateStatus = (id, status) => {
     }
 
     return ({updateResponse})
-}
-
-export async function SubmitPayment(payment) {
-    console.log(JSON.stringify(payment));
-    await CreatePayment(JSON.stringify(payment))
-        .then(response => {
-            return response.data
-        })
-        .catch(e => {
-            return null;
-        });
 }

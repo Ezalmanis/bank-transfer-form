@@ -17,7 +17,7 @@ export function AmountInFigures() {
     //TODO, add logic here
     function handleAmountChange(event) {
         dispatch(amountToTransferFromRemitter(event.target.value));
-        dispatch(amountToTransferToBeneficiary(event.target.value * exchangeRate));
+        dispatch(amountToTransferToBeneficiary(Number(event.target.value * exchangeRate).toPrecision(3)));
     }
 
     return (

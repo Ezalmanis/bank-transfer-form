@@ -15,27 +15,27 @@ public class BankUserEntry {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long bankUserEntry;
 
-    private Long bankUserId;
+    private String bankUserId;
 
     private String bankUserName;
 
-    private Long bankAccountNo;
+    private String bankAccountNo;
 
     public BankUserEntry() {
     }
 
-    public BankUserEntry(final Long bankUserEntry, final Long bankUserId, final String bankUserName, final Long bankAccountNo) {
+    public BankUserEntry(final Long bankUserEntry, final String bankUserId, final String bankUserName, final String bankAccountNo) {
         this.bankUserEntry = bankUserEntry;
         this.bankUserId = bankUserId;
         this.bankUserName = bankUserName;
         this.bankAccountNo = bankAccountNo;
     }
 
-    public Long getBankUserId() {
+    public String getBankUserId() {
         return bankUserId;
     }
 
-    public void setBankUserId(final Long bankUserId) {
+    public void setBankUserId(final String bankUserId) {
         this.bankUserId = bankUserId;
     }
 
@@ -47,11 +47,11 @@ public class BankUserEntry {
         this.bankUserName = bankUserName;
     }
 
-    public Long getBankAccountNo() {
+    public String getBankAccountNo() {
         return bankAccountNo;
     }
 
-    public void setBankAccountNo(final Long bankAccountNo) {
+    public void setBankAccountNo(final String bankAccountNo) {
         this.bankAccountNo = bankAccountNo;
     }
 

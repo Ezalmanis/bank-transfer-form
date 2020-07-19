@@ -22,7 +22,7 @@ public class Beneficiary extends BankUser {
         super();
     }
 
-    public Beneficiary(final String bankUserName, final Long bankUserId, final Long bankAccountNo,
+    public Beneficiary(final String bankUserName, final String bankUserId, final String bankAccountNo,
                        final String beneficiaryResidenceCountry, final String beneficiaryBank, final String beneficiaryBankCode) {
         super(bankUserName, bankUserId, bankAccountNo);
         this.beneficiaryResidenceCountry = beneficiaryResidenceCountry;

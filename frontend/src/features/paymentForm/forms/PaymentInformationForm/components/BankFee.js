@@ -6,7 +6,6 @@ import { bankFeeAmount} from "../../../../components/payments/reducers/paymentSl
 
 export function BankFee() {
 
-
     const dispatch = useDispatch();
     const defaultFee = 1.02
     dispatch(bankFeeAmount(defaultFee));

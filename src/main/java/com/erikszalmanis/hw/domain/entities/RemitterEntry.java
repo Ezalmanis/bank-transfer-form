@@ -15,7 +15,7 @@ public class RemitterEntry extends BankUserEntry {
         super();
     }
 
-    public RemitterEntry(final Long bankUserEntry, final Long bankUserId, final String bankUserName, final Long bankAccountNo, final PaymentOrderEntity paymentOrderEntity) {
+    public RemitterEntry(final Long bankUserEntry, final String bankUserId, final String bankUserName, final String bankAccountNo, final PaymentOrderEntity paymentOrderEntity) {
         super(bankUserEntry, bankUserId, bankUserName, bankAccountNo);
         this.paymentOrderEntity = paymentOrderEntity;
     }
