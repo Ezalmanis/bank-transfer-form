@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "77f5597e-500d-44b4-87b8-d6847df17600",
+		"name": "Payment Form",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Save Payment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"clientId\": 4001,\r\n    \"documentDate\": [\r\n        2020,\r\n        7,\r\n        14\r\n    ],\r\n    \"remitter\": {\r\n        \"bankUserName\": \"remitterName1\",\r\n        \"bankUserId\": 101,\r\n        \"bankAccountNo\": 201\r\n    },\r\n    \"beneficiary\": {\r\n        \"bankUserName\": \"beneficiaryName1\",\r\n        \"bankUserId\": 301,\r\n        \"bankAccountNo\": 401,\r\n        \"beneficiaryResidenceCountry\": \"beneficiaryCountry1\",\r\n        \"beneficiaryBank\": \"beneficiaryBank1\",\r\n        \"beneficiaryBankCode\": \"beneficiaryBankCode1\"\r\n    },\r\n    \"paymentInformation\": {\r\n        \"amountInWords\": \"amountInWords1\",\r\n        \"amountToTransferFromRemitter\": 22.02,\r\n        \"amountToTransferToBeneficiary\": 22.02,\r\n        \"currencyType\": \"EUR\",\r\n        \"paymentType\": \"CASH\",\r\n        \"valuedAtDate\": [\r\n            2020,\r\n            7,\r\n            13\r\n        ],\r\n        \"paymentDetails\": \"paymentDetails1\",\r\n        \"bankFee\": 1.02,\r\n        \"exchangeRate\": 2.02,\r\n        \"externalPaymentCode\": \"paymentCode1\"\r\n    },\r\n    \"status\": \"COMPLETED\",\r\n    \"termsOfService\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8075/payment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8075",
+					"path": [
+						"payment"
+					]
+				},
+				"description": "Properly formatted payment request"
+			},
+			"response": []
+		},
+		{
+			"name": "Show all payments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8075/payments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8075",
+					"path": [
+						"payments"
+					]
+				},
+				"description": "Show all payments"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Payment rates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8075/payment/rates",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8075",
+					"path": [
+						"payment",
+						"rates"
+					]
+				},
+				"description": "Show all payments"
+			},
+			"response": []
+		},
+		{
+			"name": "Update status",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8075/payment/1/PENDING",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8075",
+					"path": [
+						"payment",
+						"1",
+						"PENDING"
+					]
+				},
+				"description": "Update status"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Payment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"clientId\": 4001,\r\n    \"documentDate\": [\r\n        2020,\r\n        7,\r\n        14\r\n    ],\r\n    \"remitter\": {\r\n        \"bankUserName\": \"updatedRemitterName\",\r\n        \"bankUserId\": 101,\r\n        \"bankAccountNo\": 201\r\n    },\r\n    \"beneficiary\": {\r\n        \"bankUserName\": \"updated\",\r\n        \"bankUserId\": 301,\r\n        \"bankAccountNo\": 401,\r\n        \"beneficiaryResidenceCountry\": \"updated\",\r\n        \"beneficiaryBank\": \"updated\",\r\n        \"beneficiaryBankCode\": \"updated\"\r\n    },\r\n    \"paymentInformation\": {\r\n        \"amountInWords\": \"updated\",\r\n        \"amountToTransferFromRemitter\": 21.02,\r\n        \"amountToTransferToBeneficiary\": 22.02,\r\n        \"currencyType\": \"EUR\",\r\n        \"paymentType\": \"CASH\",\r\n        \"valuedAtDate\": [\r\n            2020,\r\n            7,\r\n            13\r\n        ],\r\n        \"paymentDetails\": \"updated\",\r\n        \"bankFee\": 1.02,\r\n        \"exchangeRate\": 2.02,\r\n        \"externalPaymentCode\": \"updated\"\r\n    },\r\n    \"status\": \"COMPLETED\",\r\n    \"termsOfService\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8075/payment/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8075",
+					"path": [
+						"payment",
+						"1"
+					]
+				},
+				"description": "Update Payment"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
