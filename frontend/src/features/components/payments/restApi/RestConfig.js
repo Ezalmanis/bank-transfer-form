@@ -3,7 +3,7 @@ import axios from "axios";
 axios.defaults.baseURL = 'http://localhost:8075';
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 //TODO, make devmode setting for cors, for now this will do
-// axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
 export const GetExchangeRate = () => {
     return axios.get('/payment/rates');

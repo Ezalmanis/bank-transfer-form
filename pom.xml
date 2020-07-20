@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.erikszalmanis.hw</groupId>
     <artifactId>bank-transfer-form</artifactId>
-    <version>0.5</version>
+    <version>0.6-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>bank-transfer-form</name>
     <description>Demo project for Back-end with Java and Front-end with React.js</description>
