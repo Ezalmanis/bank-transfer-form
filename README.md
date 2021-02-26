@@ -2,7 +2,8 @@
 
 Back-end + front end:
 
-You can run the JAR, and the application will run a service on localhost:8075.
+For the application to run, please have maven + java set up. Do clean install and run the JAR file from the target folder.
+The application will run a service on localhost:8075.
 There are some endpoints I have not implemented in the front-end, but you can try them out using the added postman collection
 form.postman_collection.json.
 
